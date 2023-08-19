@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div ng-init="title = 'Cao Đẳng CNTT Tp.HCM'; description = 'Kỷ niệm 17 năm thành lập trường' ">
+        <h2 class="text-primary">Bài tập 1</h2>
+        <h3>{{title}}</h3>
+        <h3>{{description}}</h3>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 2 ng-bind Directive</h2>
+        <label>Number 1:</label>
+        <input type="text" ng-model="A" ng-change="Tinh()"> <br> <br>
+        <label>Number 2:</label>
+        <input type="text" ng-model="B" ng-change="Tinh()">
+        <p class="text-bold">Result: {{kq}}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 3 ng-click Directive</h2>
+        <button ng-click="hienThi()">Click Here</button>
+        <h4 ng-show="show">ng-click Directive</h4>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 4 ng-readonly Directive</h2>
+        <label>Check to make month readonly: </label>
+        <input type="checkbox" ng-model="checked"> <br> <br>
+        <label>Input Month:</label>
+        <input type="date" ng-readonly="checked">
+    </div>
+
+    <div ng-controller="myCtrl" ng-init="disable=false">
+        <h2 class="text-primary">Bài tập 5 ng-disable Directive</h2>
+        <button ng-disabled="disable" ng-click="Disable(disable)">Click to Disable</button>
+        <button ng-show="disable" ng-click="Disable(disable)">Click to Enable</button>
+    </div>
+
+    <div>
+        <h2 class="text-primary">Bài tập 6</h2>
+        <label>Nhập một số nguyên dương N có 2 chữ số:</label>
+        <input type="text" ng-model="N">
+        <p>{{ ( N - ( N % 10 )) / 10 }} + {{ N % 10 }}</p>
+        <p class="text-bold">Tổng 2 chữ số: {{ ( N % 10 ) + ( N - ( N %10 )) /10 }}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 7</h2>
+        <label>Nhập số A</label>
+        <input type="text" ng-model="a"> <br> <br>
+        <label>Nhập số B</label>
+        <input type="text" ng-model="b"> <br> <br>
+        <label>Chọn phép tính</label>
+        <select ng-model="chon" ng-change="tinhToan()">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
+        </select>
+        <p class="text-bold">Kết quả: {{kq}}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 8: Nhập vào 2 số nguyên a, b. In ra màn hình giá trị lớn nhất</h2>
+        <input type="text" placeholder="Nhập số A" ng-model="a">
+        <input type="text" placeholder="Nhập số B" ng-model="b">
+        <button ng-click="findMax()">Tìm số lớn nhất</button>
+        <p class="text-bold">Số lớn nhất là: {{max}}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 9: Tính chu vi & diện tích hình chữ nhật</h2>
+        <input type="text" placeholder="Nhập chiêu dài" ng-model="a">
+        <input type="text" placeholder="Nhập chiều rộng" ng-model="b">
+        <button ng-click="cvdthcn()">Tính chu vi & tính diện tích HCN</button>
+        <p class="text-bold">
+            <span>Chu vi: {{chuvi}}</span> &emsp; &emsp;
+            <span>Diện tích: {{dientich}}</span>
+        </p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h2 class="text-primary">Bài tập 10: Tính chu vi & diện tích hình tròn</h2>
+        <input type="text" placeholder="Nhập bán kính" ng-model="r">
+        <button ng-click="cvdtht()">Tính chu vi & diện tích hình tròn</button>
+        <p class="text-bold">
+            <span>Chu vi: {{chuvi}}</span> &emsp; &emsp;
+            <span>Diện tích: {{dientich}}</span>
+        </p>
+    </div>
+    <script src="../../angularjs_1.8.2.min.js"></script>
+    <script src="./lab1.js"></script>
+</body>
+</html>

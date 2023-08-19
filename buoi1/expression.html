@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví dụ expression</title>
+</head>
+<body>
+    <div ng-init="quantity=1; cost=30; student={firstname:'Thành Phú', lastname:'Nguyễn', rollon: 101}; mark=[80,90,75,73,60]">
+        <p>Xin chào: {{student.firstname + " " + student.lastname}}</p>
+        <p>Giá sách: {{quantity*cost}}</p>
+        <p>Mã số sinh viên: {{student.rollon}}</p>
+        <p>Điểm thi môn tin: {{mark[3]}}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <h1 ng-mousemove="count = count + 1">Đưa chuột vào đây</h1>
+        <h2>{{ count }}</h2>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <button ng-click="count = count + 1">Click vào!</button>
+        <p>{{ count }}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <button ng-click="myFunction()">Click vào!</button>
+        <p>{{count}}</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+        <button ng-click="myFunc()">Chọn Menu!</button>
+        <div ng-show="showMe">
+            <h1>Menu coffee:</h1>
+            <div>café đen</div>
+            <div>Café sữa</div>
+            <div>Trà sữa</div>
+        </div>
+    </div>
+
+    </div ng-controller="myCtrl">
+        Nhập tên của bạn
+        <input type="text" ng-model="username">
+        <button ng-click='sayHello()'>In thông báo</button>
+        <hr>
+        {{greeting}}
+    <div>
+
+    <script src="../angularjs_1.8.2.min.js"></script>
+    <script src="./expression.js"></script>
+</body>
+</html>

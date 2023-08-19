@@ -1,0 +1,10 @@
+body {
+    margin: 0 auto;
+    width: fit-content;
+}
+.text-primary {
+    color: #28bf55;
+}
+.text-bold {
+    font-weight: bold;
+}
