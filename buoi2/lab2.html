@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lab2</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+	<div id="bai1" ng-controller="myCtrl">
+		<h3>Tìm giá trị lớn nhất của 3 số</h3>
+		<label>Nhập số A</label>
+		<input type="text" ng-model="A"> <br><br>
+		<label>Nhập số B</label>
+		<input type="text" ng-model="B"> <br><br>
+		<label>Nhập số C</label>
+		<input type="text" ng-model="C"> <br><br>
+		<button ng-click="findMax()">Tìm max</button>
+		<span>{{max}}</span>
+	</div>
+
+	<div id="bai2" ng-controller="myCtrl">
+		<h3>Cho 3 só a, b, c. Hãy in ra màn hình theo thứ tự tăng dần các số</h3>
+		<label>Nhập số A</label>
+		<input type="text" ng-model="A"> <br><br>
+		<label>Nhập số B</label>
+		<input type="text" ng-model="B"> <br><br>
+		<label>Nhập số C</label>
+		<input type="text" ng-model="C"> <br><br>
+		<button ng-click="sort()">Sắp xếp</button>
+		<span>{{A}} {{B}} {{C}}</span>
+	</div>
+
+	<div id="bai3" ng-controller="myCtrl">
+		<h3>Giải phương trình bậc 1</h3>
+		<label>Hệ số A</label>
+		<input type="text" ng-model="A"> <br><br>
+		<label>Hệ số B</label>
+		<input type="text" ng-model="B"> <br><br>
+		<button ng-click="giaiPTB1()">Giải phương trình bậc 1</button>
+		<span>{{x}}</span>
+	</div>
+	<script src="../angularjs_1.8.2.min.js"></script>
+	<script src="./lab2.js"></script>
+</body>
+</html>
