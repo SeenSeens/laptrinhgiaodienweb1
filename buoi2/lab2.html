@@ -7,39 +7,101 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-	<div id="bai1" ng-controller="myCtrl">
-		<h3>Tìm giá trị lớn nhất của 3 số</h3>
-		<label>Nhập số A</label>
-		<input type="text" ng-model="A"> <br><br>
-		<label>Nhập số B</label>
-		<input type="text" ng-model="B"> <br><br>
-		<label>Nhập số C</label>
-		<input type="text" ng-model="C"> <br><br>
-		<button ng-click="findMax()">Tìm max</button>
-		<span>{{max}}</span>
-	</div>
 
-	<div id="bai2" ng-controller="myCtrl">
-		<h3>Cho 3 só a, b, c. Hãy in ra màn hình theo thứ tự tăng dần các số</h3>
-		<label>Nhập số A</label>
-		<input type="text" ng-model="A"> <br><br>
-		<label>Nhập số B</label>
-		<input type="text" ng-model="B"> <br><br>
-		<label>Nhập số C</label>
-		<input type="text" ng-model="C"> <br><br>
-		<button ng-click="sort()">Sắp xếp</button>
-		<span>{{A}} {{B}} {{C}}</span>
-	</div>
+	<section class="container">
+		<div class="row">
+			<div class="col-4 offset-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center">
+						Tìm giá trị lớn nhất của 3 số
+					</div>
+					<div class="card-body">
+						<div class="m-1">
+							<label class="form-label">Nhập số A</label>
+							<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
+						</div>
+						<div class="m-1">
+							<label class="form-label">Nhập số B</label>
+							<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+						</div>
+						<div class="m-1">
+							<label class="form-label">Nhập số C</label>
+							<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
+						</div>
+					</div>
+					<div class="card-footer text-danger">
+						<input ng-bind="Max = findMax()" type="text" class="form-control text-danger" value="{{Max}}" readonly>
+					</div>
+				</div>
+			</div>
 
-	<div id="bai3" ng-controller="myCtrl">
-		<h3>Giải phương trình bậc 1</h3>
-		<label>Hệ số A</label>
-		<input type="text" ng-model="A"> <br><br>
-		<label>Hệ số B</label>
-		<input type="text" ng-model="B"> <br><br>
-		<button ng-click="giaiPTB1()">Giải phương trình bậc 1</button>
-		<span>{{x}}</span>
-	</div>
+			<div class="col-4 offset-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center">Cho 3 só a, b, c. Hãy in ra màn hình theo thứ tự tăng dần các số</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số A</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
+						<label class="form-label">Nhập số B</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+						<label class="form-label">Nhập số C</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
+					</div>
+					<div class="card-footer">
+						<input ng-bind="sortedNumbers = sort()" type="text" class="form-control text-danger" value="{{sortedNumbers}}" readonly>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 offset-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center">Giải phương trình bậc 1</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số A</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
+						<label class="form-label">Nhập số B</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+					</div>
+					<div class="card-footer">
+						<input ng-bind="ptb1 = giaiPTB1()" type="text" class="form-control text-danger" value="{{ptb1}}" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 offset-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center">Giải phương trình bậc 2</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số A</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
+						<label class="form-label">Nhập số B</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+						<label class="form-label">Nhập số C</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
+						<button type="submit" class="btn btn-primary mt-3" ng-click="giaiPTB2()">Giải phương trình bậc 2</button>
+					</div>
+					<div class="card-footer">
+						<input ng-bind="ptb2 = giaiPTB2()" type="text" class="form-control text-danger" value="{{ptb2}}" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 offset-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header">
+						Giải phương trình
+						<input type="radio" name="r" checked> <label class="form-label">Bậc 1</label>
+						<input type="radio" name="r"> <label class="form-label">Bậc 2</label>
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số A</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
+						<label class="form-label">Nhập số B</label>
+						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
 	<script src="../angularjs_1.8.2.min.js"></script>
 	<script src="./lab2.js"></script>
 </body>
