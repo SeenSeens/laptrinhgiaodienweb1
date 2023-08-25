@@ -10,95 +10,196 @@
 
 	<section class="container">
 		<div class="row">
-			<div class="col-4 offset-4 mb-3">
+			<div class="col-4 mb-3">
 				<div class="card" ng-controller="myCtrl">
-					<div class="card-header text-primary text-center">
-						Tìm giá trị lớn nhất của 3 số
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 1 Tìm giá trị lớn nhất của 3 số
 					</div>
 					<div class="card-body">
-						<div class="m-1">
-							<label class="form-label">Nhập số A</label>
-							<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
-						</div>
-						<div class="m-1">
-							<label class="form-label">Nhập số B</label>
-							<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
-						</div>
-						<div class="m-1">
-							<label class="form-label">Nhập số C</label>
-							<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
-						</div>
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<label class="form-label">Nhập C</label>
+						<input type="number" class="form-control" placeholder="Nhập c" ng-model="C">
+						<button class="btn btn-primary mt-3" ng-click="findMax()">Tìm max</button>
 					</div>
 					<div class="card-footer text-danger">
-						<input ng-bind="Max = findMax()" type="text" class="form-control text-danger" value="{{Max}}" readonly>
+						<textarea class="form-control text-danger" readonly>{{max}}</textarea>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-4 offset-4 mb-3">
+			<div class="col-4 mb-3">
 				<div class="card" ng-controller="myCtrl">
-					<div class="card-header text-primary text-center">Cho 3 só a, b, c. Hãy in ra màn hình theo thứ tự tăng dần các số</div>
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 2 Cho 3 só a, b, c. Hãy in ra màn hình theo thứ tự tăng dần các số
+					</div>
 					<div class="card-body">
-						<label class="form-label">Nhập số A</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
-						<label class="form-label">Nhập số B</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
-						<label class="form-label">Nhập số C</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<label class="form-label">Nhập C</label>
+						<input type="number" class="form-control" placeholder="Nhập c" ng-model="C">
+						<button class="btn btn-primary mt-3" ng-click="sort()">Sắp xếp</button>
 					</div>
 					<div class="card-footer">
-						<input ng-bind="sortedNumbers = sort()" type="text" class="form-control text-danger" value="{{sortedNumbers}}" readonly>
+						<textarea class="form-control text-danger" readonly>{{sorts}}</textarea>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-4 offset-4 mb-3">
+			<div class="col-4 mb-3">
 				<div class="card" ng-controller="myCtrl">
-					<div class="card-header text-primary text-center">Giải phương trình bậc 1</div>
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 3 Giải phương trình bậc 1
+					</div>
 					<div class="card-body">
-						<label class="form-label">Nhập số A</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
-						<label class="form-label">Nhập số B</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<button class="btn btn-primary mt-3" ng-click="giaiPTB1()">Giải phương trình bậc 1</button>
 					</div>
 					<div class="card-footer">
-						<input ng-bind="ptb1 = giaiPTB1()" type="text" class="form-control text-danger" value="{{ptb1}}" readonly>
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
 					</div>
 				</div>
 			</div>
-			<div class="col-4 offset-4 mb-3">
+
+			<div class="col-4 mb-3">
 				<div class="card" ng-controller="myCtrl">
-					<div class="card-header text-primary text-center">Giải phương trình bậc 2</div>
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 4 Giải phương trình bậc 2
+					</div>
 					<div class="card-body">
-						<label class="form-label">Nhập số A</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
-						<label class="form-label">Nhập số B</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
-						<label class="form-label">Nhập số C</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số C" ng-model="C">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<label class="form-label">Nhập C</label>
+						<input type="number" class="form-control" placeholder="Nhập c" ng-model="C">
 						<button type="submit" class="btn btn-primary mt-3" ng-click="giaiPTB2()">Giải phương trình bậc 2</button>
 					</div>
 					<div class="card-footer">
-						<input ng-bind="ptb2 = giaiPTB2()" type="text" class="form-control text-danger" value="{{ptb2}}" readonly>
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
 					</div>
 				</div>
 			</div>
-			<div class="col-4 offset-4 mb-3">
+
+			<div class="col-4 mb-3">
 				<div class="card" ng-controller="myCtrl">
-					<div class="card-header">
-						Giải phương trình
-						<input type="radio" name="r" checked> <label class="form-label">Bậc 1</label>
-						<input type="radio" name="r"> <label class="form-label">Bậc 2</label>
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 5 Giải phương trình
+						<input type="radio" name="r" ng-model="equationType" ng-value="'linear'" ng-change="toggle()">
+						<label class="form-label">Bậc 1</label>
+						<input type="radio" name="r" ng-model="equationType" ng-value="'quadratic'" ng-change="toggle()">
+						<label class="form-label">Bậc 2</label>
 					</div>
 					<div class="card-body">
-						<label class="form-label">Nhập số A</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số A" ng-model="A">
-						<label class="form-label">Nhập số B</label>
-						<input type="number" class="form-control" placeholder="Nhập hệ số B" ng-model="B">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<label ng-show="equationType === 'quadratic'" class="form-label">Nhập C</label>
+						<input ng-show="equationType === 'quadratic'" type="number" class="form-control" placeholder="Nhập c" ng-model="C">
+						<button ng-show="equationType !== 'quadratic'" class="btn btn-primary mt-3" ng-click="giaiPTB1()">Giải phương trình bậc 1</button>
+						<button ng-show="equationType === 'quadratic'" class="btn btn-primary mt-3" ng-click="giaiPTB2()">Giải phương trình bậc 2</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 6 Chương trình tính tiền cước taxi
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số Km đã đi</label>
+						<input type="number" class="form-control" placeholder="Nhập số km đã đi" ng-model="km">
+						<button class="btn btn-primary mt-3" ng-click="cuoctaxi()">Tính tiền cước taxi</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 7 Kiểm tra tam giác
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập a" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập b" ng-model="B">
+						<label class="form-label">Nhập C</label>
+						<input type="number" class="form-control" placeholder="Nhập c" ng-model="C">
+						<button class="btn btn-primary mt-3" ng-click="kttamgiac()">Kiểm tra tam giác</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 8 Liệt kê số nguyên tố
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập N</label>
+						<input type="number" class="form-control" placeholder="Nhập n" ng-model="N">
+						<button class="btn btn-primary mt-3" ng-click="lietkesonguyento()">Liệt kê số nguyên tố</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 9 Tìm ước chung lớn nhất & bội chung nhỏ nhất
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập A</label>
+						<input type="number" class="form-control" placeholder="Nhập A" ng-model="A">
+						<label class="form-label">Nhập B</label>
+						<input type="number" class="form-control" placeholder="Nhập B" ng-model="B">
+						<button class="btn btn-primary mt-3" ng-click="findUCLNBCNN()">Tìm ước chung lớn nhất & bội chung nhỏ nhất</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="myCtrl">
+					<div class="card-header text-primary text-center fw-bold text-uppercase">
+						Bài 10 Đến ước số của số nguyên dương N
+					</div>
+					<div class="card-body">
+						<label class="form-label">Nhập N</label>
+						<input type="number" class="form-control" placeholder="Nhập N" ng-model="N">
+						<button class="btn btn-primary mt-3" ng-click="demUocSo()">Đến ước số của số nguyên dương N</button>
+					</div>
+					<div class="card-footer">
+						<textarea class="form-control text-danger" readonly>{{result}}</textarea>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</section>
 
 
