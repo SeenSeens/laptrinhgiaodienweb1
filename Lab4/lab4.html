@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lab 4</title>
+	<link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body>
+	<section class="container">
+		<div class="row">
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="randomArr">
+					<div class="card-header">Bài 1 phát sinh ngẫu nhiên mảng 1 chiều các số nguyên</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control" placeholder="Nhập N" ng-model="N">
+						<button class="btn btn-primary mt-3" ng-click="generateRandomArray(N)">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+						<textarea class="form-control text-secondary" readonly>{{ arr }}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="randomArr">
+					<div class="card-header">Bài 2 phát sinh ngẫu nhiên mảng một chiều các số nguyên sao cho mảng 
+có thứ tự tăng dần (Không sắp xếp)</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3" ng-click="sortArray()">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+						<textarea class="form-control text-secondary" readonly ng-model="sortArrayResult"></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 3 nhập mảng các số nguyên và xuất các phần tử lẻ có trong mảng</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 4 nhập vào mảng một chiều các số nguyên và xuất ra các phần tử
+chẵn nhỏ hơn 20</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 5 nhập vào mảng một chiều các số nguyên và xuất ra màn hình các 
+phần tử là số nguyên tố</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 6 nhập vào mảng một chiều các số nguyên và xuất ra màn hình các 
+phần tử là số chính phương nằm tại những vị trí lẻ trong mảng</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 7 tìm vị trí của phần tử nhỏ nhất trong mảng các số nguyên</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 8 tìm vị trí của phần tử lớn nhất trong mảng các số nguyên</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 9 in vị trí các phần tử nguyên tố trong mảng các số nguyên</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 10 in vị trí các phần tử nguyên tố lớn hơn 23</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 11 vị trí phần tử âm đầu tiên trong mảng</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card">
+					<div class="card-header">Bài 12 vị trí phần tử có giá trị x xuất hiện cuối cùng trong mảng</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control">
+						<button class="btn btn-primary mt-3">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="../angularjs_1.8.2.min.js"></script>
+	<script src="./lab4.js"></script>
+</body>
+</html>
