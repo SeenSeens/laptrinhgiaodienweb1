@@ -10,7 +10,7 @@
 	<section class="container">
 		<div class="row">
 			<div class="col-4 mb-3">
-				<div class="card" ng-controller="randomArr">
+				<div class="card" ng-controller="lab4">
 					<div class="card-header">Bài 1 phát sinh ngẫu nhiên mảng 1 chiều các số nguyên</div>
 					<div class="card-body">
 						<label class="form-label">Nhập số phần tử</label>
@@ -19,30 +19,15 @@
 					</div>
 					<div class="card-footer">
 						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
-						<textarea class="form-control text-secondary" readonly>{{ arr }}</textarea>
+						<textarea class="form-control text-secondary" readonly>{{arr}}</textarea>
 					</div>
 				</div>
 			</div>
 
 			<div class="col-4 mb-3">
-				<div class="card" ng-controller="randomArr">
+				<div class="card" ng-controller="lab4">
 					<div class="card-header">Bài 2 phát sinh ngẫu nhiên mảng một chiều các số nguyên sao cho mảng 
 có thứ tự tăng dần (Không sắp xếp)</div>
-					<div class="card-body">
-						<label class="form-label">Nhập số phần tử</label>
-						<input type="text" class="form-control">
-						<button class="btn btn-primary mt-3" ng-click="sortArray()">Ngẫu nhiên</button>
-					</div>
-					<div class="card-footer">
-						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
-						<textarea class="form-control text-secondary" readonly ng-model="sortArrayResult"></textarea>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-4 mb-3">
-				<div class="card">
-					<div class="card-header">Bài 3 nhập mảng các số nguyên và xuất các phần tử lẻ có trong mảng</div>
 					<div class="card-body">
 						<label class="form-label">Nhập số phần tử</label>
 						<input type="text" class="form-control">
@@ -50,6 +35,24 @@ có thứ tự tăng dần (Không sắp xếp)</div>
 					</div>
 					<div class="card-footer">
 						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+						<textarea class="form-control text-secondary" readonly></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4 mb-3">
+				<div class="card" ng-controller="lab4">
+					<div class="card-header">Bài 3 nhập mảng các số nguyên và xuất các phần tử lẻ có trong mảng</div>
+					<div class="card-body">
+						<label class="form-label">Nhập số phần tử</label>
+						<input type="text" class="form-control" placeholder="Nhập N" ng-model="N">
+						<button class="btn btn-primary mt-3" ng-click="printOddElement()">Ngẫu nhiên</button>
+					</div>
+					<div class="card-footer">
+						<label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+						<textarea class="form-control text-secondary" readonly >{{generateRandomArray(N)}}</textarea>
+						<label class="form-label">Các phần tử lẻ ngẫu nhiên trong mảng</label>
+						<textarea class="form-control text-secondary" readonly>{{le}}</textarea>
 					</div>
 				</div>
 			</div>
