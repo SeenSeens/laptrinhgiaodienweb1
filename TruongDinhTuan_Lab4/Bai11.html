@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 11</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="angularjs_1.8.2.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-6">
+                <div class="card" ng-controller="lab4">
+                    <div class="card-header">Bài 11 vị trí phần tử âm đầu tiên trong mảng</div>
+                    <div class="card-body">
+                        <label class="form-label">Nhập số phần tử</label>
+                        <input type="text" class="form-control" ng-model="N">
+                        <button class="btn btn-primary mt-3" ng-click="InViTriPhanTuAmDauTien()">Ngẫu nhiên</button>
+                    </div>
+                    <div class="card-footer">
+                        <label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+                        <textarea class="form-control text-secondary" readonly>{{arr}}</textarea>
+                        <label class="form-label">Vị trí phần tử âm đầu tiên</label>
+                        <textarea class="form-control text-secondary" readonly>{{result}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        angular.module('myApp', [])
+            .factory('ArrayService', () => {
+                var factory = {};
+                // Hàm sinh số ngẫu nhiên
+                factory.RanDom = (n) => {
+                    var randomArray = [];
+                    for (let i = 0; i < n; i++) {
+                        randomArray.push(Math.floor(Math.random() * 20) -10);
+                    }
+                    return randomArray;
+                };
+                return factory;
+            })
+            .controller('lab4', ['$scope', 'ArrayService', ($scope, ArrayService) => {
+                $scope.GenerateRandomArray = (n) => {
+                    if (n) {
+                        return $scope.arr = ArrayService.RanDom(n);
+                    }
+                },
+                $scope.InViTriPhanTuAmDauTien = () => {
+                    let n = $scope.N;
+                    $scope.arr = $scope.GenerateRandomArray(n);
+
+                    for (let index in $scope.arr) {
+                        if($scope.arr[index] < 0) {
+                            $scope.result = index;
+                            break;
+                        }
+                    }
+                }
+            }]);
+    </script>
+
+</body>
+</html>

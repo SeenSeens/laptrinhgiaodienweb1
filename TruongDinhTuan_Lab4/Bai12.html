@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 12</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="angularjs_1.8.2.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-6">
+            <div class="card" ng-controller="lab4">
+                <div class="card-header">Bài 12 vị trí phần tử có giá trị x xuất hiện cuối cùng trong mảng</div>
+                <div class="card-body">
+                    <label class="form-label">Nhập số phần tử</label>
+                    <input type="text" class="form-control" ng-model="N">
+                    <br>
+                    <label class="form-label">Nhập số cần tìm</label>
+                    <input type="text" class="form-control" ng-model="X">
+                    <button class="btn btn-primary mt-3" ng-click="TimViTriCuoiCungCuaX()">Tìm</button>
+                </div>
+                <div class="card-footer">
+                    <label class="form-label">Các phần tử ngẫu nhiên trong mảng</label>
+                    <textarea class="form-control text-secondary" readonly>{{arr}}</textarea>
+                    <label class="form-label">Vị trí có giá trị x xuất hiện cuối cùng</label>
+                    <textarea class="form-control text-secondary" readonly>{{result}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    angular.module('myApp', [])
+        .factory('ArrayService', () => {
+            var factory = {};
+            // Hàm sinh số ngẫu nhiên
+            factory.RanDom = (n) => {
+                var randomArray = [];
+                for (let i = 0; i < n; i++) {
+                    randomArray.push(Math.floor(Math.random() * 20) - 10);
+                }
+                return randomArray;
+            };
+            return factory;
+        })
+        .controller('lab4', ['$scope', 'ArrayService', ($scope, ArrayService) => {
+            $scope.GenerateRandomArray = (n) => {
+                if (n) {
+                    $scope.arr = ArrayService.RanDom(n);
+                }
+            };
+
+            $scope.TimViTriCuoiCungCuaX = () => {
+                let n = $scope.N;
+                $scope.GenerateRandomArray(n);
+                let x = parseInt($scope.X);
+
+                let lastIndex = -1;
+
+                for (let index = $scope.arr.length - 1; index >= 0; index--) {
+                    if ($scope.arr[index] === x) {
+                        lastIndex = index;
+                        break;
+                    }
+                }
+
+                if (lastIndex !== -1) {
+                    $scope.result = lastIndex;
+                } else {
+                    $scope.result = `Không tìm thấy ${x} trong mảng`;
+                }
+            }
+        }]);
+</script>
+
+</body>
+</html>

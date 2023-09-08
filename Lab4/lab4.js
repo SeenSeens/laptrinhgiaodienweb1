@@ -29,7 +29,7 @@ angular.module('myApp', [])
             // Tính căn bậc hai của số và kiểm tra nó có phải là số nguyên không
             var squareRoot = Math.sqrt(number);
             return squareRoot === Math.floor(squareRoot);
-        }
+        };
         return factory;
     })
     // .run( function () );
@@ -99,13 +99,13 @@ angular.module('myApp', [])
                         array.push(item);
                     }
                 });
-                $scope.lessThan20 = mang;
+                //$scope.lessThan20 = mang;
                 if(array.length > 0) {
-                    $scope.result = array;
+                    return $scope.result = array;
                 } else {
-                    $scope.result = "Không có phần tử chẵn nào nhỏ hơn 20";
+                    return $scope.result = "Không có phần tử chẵn nào nhỏ hơn 20";
                 }
-            }
+            },
         /**
          * Bài 5
          */
