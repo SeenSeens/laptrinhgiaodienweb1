@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lab 5</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6 mb-4">
+                <!-- Bài 1-->
+                <div class="card" ng-controller="lab5">
+                    <div class="card-header text-center text-info text-uppercase"><h5>Bài 1 Mảng 2 chiều</h5></div>
+                    <div class="card-body">
+                        <labe>Các phần tử trong mảng 2 chiều:</labe>
+                        <div class="text-danger text-justify">
+                            <ul ng-repeat="item in numbers">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer"></div>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <!-- Bài 2-->
+                <div class="card" ng-controller="lab5">
+                    <div class="card-header text-center text-info text-uppercase"><h5>Bài 2 Mảng ngẫu nhiên 2 chiều</h5></div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-4">
+                                <labe>Nhập số dòng</labe>
+                                <input type="text" class="form-control" ng-model="R">
+                            </div>
+                            <div class="col-4">
+                                <label>Nhập số cột</label>
+                                <input type="text"class="form-control" ng-model="C">
+                            </div>
+                            <div class="col-4 pt-4">
+                                <button class="btn btn-primary" ng-click="GenerateRandomArray(R, C)">Ngẫu nhiên</button>
+                            </div>
+                        </div>
+                        <div class="text-danger text-justify">
+                            <ul ng-repeat="item in array">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer"></div>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <!-- Bài 3-->
+                <div class="card" ng-controller="lab5">
+                    <div class="card-header text-center text-info text-uppercase"><h5>Bài 3 tính tổng các phần tử trên cùng 1 dòng</h5></div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-4">
+                                <labe>Nhập số dòng</labe>
+                                <input type="text" class="form-control" ng-model="R">
+                            </div>
+                            <div class="col-4">
+                                <label>Nhập số cột</label>
+                                <input type="text"class="form-control" ng-model="C">
+                            </div>
+                            <div class="col-4 pt-4">
+                                <button class="btn btn-primary" ng-click="SumRows(R, C)">Ngẫu nhiên</button>
+                            </div>
+                        </div>
+                        <div class="text-danger text-justify">
+                            <ul ng-repeat="item in array">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <label>Tính tổng các phần tử trên cùng 1 dòng:</label>
+                        <p class="text-primary fw-bold fs-5">{{sum}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <!-- Bài 4-->
+                <div class="card" ng-controller="lab5">
+                    <div class="card-header text-center text-info text-uppercase"><h5>Bài 4 tính tổng các phần tử trên cùng 1 cột</h5></div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-4">
+                                <labe>Nhập số dòng</labe>
+                                <input type="text" class="form-control" ng-model="R">
+                            </div>
+                            <div class="col-4">
+                                <label>Nhập số cột</label>
+                                <input type="text"class="form-control" ng-model="C">
+                            </div>
+                            <div class="col-4 pt-4">
+                                <button class="btn btn-primary" ng-click="GenerateRandomArray(R, C)">Ngẫu nhiên</button>
+                            </div>
+                        </div>
+                        <div class="text-danger text-justify">
+                            <ul ng-repeat="item in array">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <label>Tính tổng các phần tử trên cùng 1 cột:</label>
+                        <p class="text-primary fw-bold fs-5">{{SumCols(R, C)}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <!-- Bài 5-->
+                <div class="card" ng-controller="lab5">
+                    <div class="card-header text-center text-info text-uppercase"><h5>Bài 5 tổng hợp bài 3 & 4</h5></div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-4">
+                                <labe>Nhập số dòng</labe>
+                                <input type="text" class="form-control" ng-model="R">
+                            </div>
+                            <div class="col-4">
+                                <label>Nhập số cột</label>
+                                <input type="text"class="form-control" ng-model="C">
+                            </div>
+                            <div class="col-4 pt-4">
+                                <button class="btn btn-primary" ng-click="SumRowsCols()">Ngẫu nhiên</button>
+                            </div>
+                        </div>
+                        <div class="text-danger text-justify">
+                            <ul ng-repeat="item in array">
+                                <li>{{item}}</li>
+                            </ul>
+                            <label>Tổng dòng</label>
+                            <input type="checkbox" ng-model="sumRows">
+                            <label>Tổng cột</label>
+                            <input type="checkbox" ng-model="sumCols">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <label>Tính tổng các phần tử trên cùng 1 dòng:</label>
+                        <p class="text-primary fw-bold fs-5">
+                            {{sum}}
+                        </p>
+                        <label>Tính tổng các phần tử trên cùng 1 cột:</label>
+                        <p class="text-primary fw-bold fs-5">
+                            {{sum}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script src="Lab5.js"></script>
+</body>
+</html>

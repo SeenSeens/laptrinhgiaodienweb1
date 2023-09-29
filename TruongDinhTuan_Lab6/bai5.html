@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" ng-app="Lab6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 5</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-controller="Lab6Controller">
+    <div class="row row-cols-1 g-3 text-center">
+        <div class="col-2 offset-5 mb-3">
+            <input type="text" class="form-control" ng-model="display" readonly>
+        </div>
+        <div class="col m-auto">
+            <button class="btn btn-primary" ng-click="appendToDisplay('1')">1</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('2')">2</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('3')">3</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('+')">+</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('4')">4</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('5')">5</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('6')">6</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('-')">-</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('7')">7</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('8')">8</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('9')">9</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('*')">X</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('.')">.</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('0')">0</button>
+            <button class="btn btn-primary" ng-click="calculateResult()">=</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('/')">-/</button>
+        </div>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+angular.module('Lab6', [])
+    .controller('Lab6Controller', $scope => {
+        $scope.display = "";
+        $scope.appendToDisplay = (value) => {
+            $scope.display += value;
+        }
+        $scope.calculateResult = _ => {
+            try {
+                $scope.display = eval($scope.display);
+            } catch (error) {
+                $scope.display = 'Error';
+            }
+        }
+    });
+</script>
+</body>
+</html>

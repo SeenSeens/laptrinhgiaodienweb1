@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lab 7</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row row-cols-1">
+        <form ng-controller="formCtrl" ng-submit="save()">
+            <div class="col">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" ng-model="student.name">
+            </div>
+            <div class="col">
+                <label class="form-label">Birthday</label>
+                <input type="date" class="form-control" ng-model="student.birthday">
+            </div>
+            <div class="col">
+                <label class="form-label">Mark</label>
+                <input type="text" class="form-control" ng-model="student.mark">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-1 mt-3 g-3">
+        <table class="table table-bordered" ng-controller="viewCtrl">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Birthday</th>
+                <th>Mark</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in ListStudent">
+                <td>{{item.name}}</td>
+                <td>{{item.birthday}}</td>
+                <td>{{item.mark}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script src="lab7.js"></script>
+</body>
+</html>

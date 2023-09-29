@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" ng-app="Lab6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 1</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-controller="Lab6Controller">
+    <div class="row row-cols-2">
+        <div class="col">
+            <img src="{{student.photo}}" class="rounded-circle">
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item">Full Name: {{student.fullname}}</li>
+                <li class="list-group-item">Birthday: {{student.birthday}}</li>
+                <li class="list-group-item">Gender: {{student.gender}}</li>
+                <li class="list-group-item">Mark: {{student.mark}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    angular.module('Lab6', [])
+        .controller('Lab6Controller', $scope => {
+            $scope.student = {
+                fullname : "Nguyễn Thị Tèo",
+                birthday : "02/06/2000",
+                gender : "Nam",
+                mark : 8.5,
+                photo : "./images/unknown.jpg"
+            }
+        });
+</script>
+</body>
+</html>

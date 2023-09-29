@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" ng-app="Lab6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 3</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-controller="Lab6Controller">
+    <div class="row row-cols-2">
+        <div class="col-4">
+            <label class="">Họ và tên</label>
+            <input type="text" class="form-control" ng-model="stu.name">
+            <label class="">Điểm</label>
+            <input type="text" class="form-control" ng-model="stu.mark">
+            <label class="">Học lực</label>
+            <input type="text" class="form-control" ng-model="stu.rank">
+            <button type="button" class="btn btn-primary mt-3" ng-click="xepLoai()">Xếp loại</button>
+        </div>
+        <div class="col-8">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và tên</th>
+                    <th>Điểm</th>
+                    <th>Học lực</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in Students">
+                    <td>{{$index}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.mark}}</td>
+                    <td>{{item.rank}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    angular.module('Lab6', [])
+        .controller('Lab6Controller', $scope => {
+            $scope.Students = [];
+            $scope.stu = {};
+            $scope.xepLoai = _ => {
+                var xl = parseFloat($scope.stu.mark);
+                if (xl < 5) $scope.stu.rank = 'Không Đạt';
+                else $scope.stu.rank = 'Đạt';
+                $scope.Students.push(angular.copy($scope.stu));
+            }
+        });
+</script>
+</body>
+</html>

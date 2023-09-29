@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lab 6</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body ng-app="myApp">
+<div class="container">
+    <div class="row row-cols-2" ng-controller="lab6">
+        <div class="col">
+            <img src="{{student.photo}}" class="rounded-circle">
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item">Full Name: {{student.fullname}}</li>
+                <li class="list-group-item">Birthday: {{student.birthday}}</li>
+                <li class="list-group-item">Gender: {{student.gender}}</li>
+                <li class="list-group-item">Mark: {{student.mark}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row row-cols-2" ng-controller="lab6">
+        <div class="col">
+            <img src="{{student.photo}}" class="rounded-circle">
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item">Full Name: {{student.fullname}}</li>
+                <li class="list-group-item">Birthday: {{student.birthday}}</li>
+                <li class="list-group-item">Gender: {{student.gender}}</li>
+                <li class="list-group-item">Mark: {{student.mark}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row row-cols-2" ng-controller="lab6">
+        <div class="col-4">
+            <label class="">Họ và tên</label>
+            <input type="text" class="form-control" ng-model="stu.name">
+            <label class="">Điểm</label>
+            <input type="text" class="form-control" ng-model="stu.mark">
+            <label class="">Học lực</label>
+            <input type="text" class="form-control" ng-model="stu.rank">
+            <button type="button" class="btn btn-primary mt-3" ng-click="xepLoai()">Xếp loại</button>
+        </div>
+        <div class="col-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ và tên</th>
+                        <th>Điểm</th>
+                        <th>Học lực</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Students">
+                        <td>{{$index}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.mark}}</td>
+                        <td>{{item.rank}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row row-cols-1" ng-controller="lab6">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="A" ng-change="calculate()">
+                </div>
+                <div class="col-1">
+                    <select class="form-select" ng-model="operator" ng-change="calculate()">
+                        <option ng-repeat="op in operators" value="{{op}}">{{op}}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="B" ng-change="calculate()">
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary form-control">=</button>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="result" readonly>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" ng-controller="lab6">
+    <div class="row row-cols-1 g-3 text-center">
+        <div class="col-2 offset-5 mb-3">
+            <input type="text" class="form-control" ng-model="display" readonly>
+        </div>
+        <div class="col m-auto">
+            <button class="btn btn-primary" ng-click="appendToDisplay('1')">1</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('2')">2</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('3')">3</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('+')">+</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('4')">4</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('5')">5</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('6')">6</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('-')">-</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('7')">7</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('8')">8</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('9')">9</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('*')">X</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" ng-click="appendToDisplay('.')">.</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('0')">0</button>
+            <button class="btn btn-primary" ng-click="calculateResult()">=</button>
+            <button class="btn btn-primary" ng-click="appendToDisplay('/')">-/</button>
+        </div>
+    </div>
+</div>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script src="lab6.js"></script>
+</body>
+</html>

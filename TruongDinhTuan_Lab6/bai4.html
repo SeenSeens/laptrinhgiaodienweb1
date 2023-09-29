@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" ng-app="Lab6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 4</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container" ng-controller="Lab6Controller">
+    <div class="row row-cols-1">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="A" ng-change="calculate()">
+                </div>
+                <div class="col-1">
+                    <select class="form-select" ng-model="operator" ng-change="calculate()">
+                        <option ng-repeat="op in operators" value="{{op}}">{{op}}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="B" ng-change="calculate()">
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary form-control">=</button>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" ng-model="result" readonly>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    angular.module('Lab6', [])
+        .controller('Lab6Controller', $scope => {
+            $scope.A = 0;
+            $scope.B = 0;
+            $scope.operator = "+";
+            $scope.result = 0;
+            $scope.operators = ["+", "-", "*", "/"];
+            $scope.calculate = () => {
+                const a = parseFloat($scope.A);
+                const b = parseFloat($scope.B);
+                switch ($scope.operator) {
+                    case "+":
+                        $scope.result = a + b;
+                        break;
+                    case "-":
+                        $scope.result = a - b;
+                        break;
+                    case "*":
+                        $scope.result = a * b;
+                        break;
+                    case "/":
+                        $scope.result = b !== 0 ? a / b : "Undefined";
+                        break;
+                    default:
+                        $scope.result = "Undefined";
+                }
+            }
+        });
+</script>
+</body>
+</html>
