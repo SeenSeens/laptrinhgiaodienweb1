@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 1</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row row-cols-1">
+        <h4 class="text-center">Bài 1</h4>
+        <form ng-controller="formCtrl" ng-submit="save()">
+            <div class="col">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" ng-model="student.name">
+            </div>
+            <div class="col">
+                <label class="form-label">Birthday</label>
+                <input type="date" class="form-control" ng-model="student.birthday">
+            </div>
+            <div class="col">
+                <label class="form-label">Mark</label>
+                <input type="text" class="form-control" ng-model="student.mark">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-1 mt-3 g-3">
+        <table class="table table-bordered" ng-controller="viewCtrl">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Birthday</th>
+                <th>Mark</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in ListStudent track by $index">
+                <td>{{item.name}}</td>
+                <td>{{item.birthday}}</td>
+                <td>{{item.mark}}</td>
+                <td>
+                    <button class="btn btn-primary" ng-click="edit($index)">Edit</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+
+    app.factory('factory', () => {
+        var factory = {};
+        factory.ListStudent = [
+            {
+                name : "Nguyễn Văn An",
+                birthday : "02/06/2000",
+                mark : 8.5
+            },
+            {
+                name : "Nguyễn Văn Thành",
+                birthday: "02/06/2000",
+                mark: 9.5
+            }
+        ];
+        return factory;
+    });
+
+    app.controller('formCtrl', [ '$scope', 'factory', ($scope, factory) => {
+        $scope.$parent.student = {};
+
+        // Insert sinh viên
+        $scope.save = function () {
+            factory.ListStudent.push(angular.copy($scope.student));
+            $scope.clear();
+        }
+        // Edit sinh viên
+        $scope.edit = function (index) {
+            $scope.index = index;
+            $scope.student = angular.copy(factory.ListStudent[index]);
+        }
+        $scope.cancel = function () {
+            $scope.student = {};
+        }
+        // Clear form fields
+        $scope.clear = function () {
+            $scope.student = {};
+            $scope.index = null;
+        };
+        // Initialize index variable
+        $scope.index = null;
+    }]);
+
+    app.controller('viewCtrl', [ '$scope', 'factory', ($scope, factory) => {
+        $scope.ListStudent = factory.ListStudent;
+    }]);
+
+</script>
+</body>
+</html>

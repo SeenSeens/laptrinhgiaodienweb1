@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body ng-controller="mycontroller">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" ng-repeat="menu in menus">{{menu}}</li>
+        </ol>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-primary-subtle">Add user</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="fullname" ng-model="fullname" placeholder="Enter Fullname">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="address" ng-model="address" placeholder="Enter Address">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="age" ng-model="age" placeholder="Enter Age">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" ng-model="email" placeholder="Enter Email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" name="phone_number" ng-model="phone_number" placeholder="Enter Phone Number">
+                        </div>
+                        <div class="">
+                            <button type="button" class="btn btn-primary" ng-click="addUser()">Add User</button>
+                            <button type="button" class="btn btn-primary" ng-click="editUser()">Edit User</button>
+                            <button type="button" class="btn btn-primary" ng-click="deleteUser()">Delete User</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control mb-3" ng-model="searching" placeholder="Enter Searching">
+                <div class="card">
+                    <div class="card-header bg-primary-subtle">User Management</div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th ng-repeat="col in columns">{{col}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="student in dataList | filter : searching" ng-click="fillForm(student)">
+                                <td>{{student.no}}</td>
+                                <td>{{student.fullname | uppercase}}</td>
+                                <td>{{student.address}}</td>
+                                <td>{{student.age}}</td>
+                                <td>{{student.email | lowercase}}</td>
+                                <td>{{student.phone_number}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-success">Sort</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../angularjs_1.8.2.min.js"></script>
+    <script src="vidu.js"></script>
+</body>
+</html>
