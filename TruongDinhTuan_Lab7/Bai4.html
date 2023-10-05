@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 4</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row row-cols-1">
+        <h4 class="text-center">Bài 4</h4>
+        <form ng-controller="formCtrl" ng-submit="save()">
+            <div class="col">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" ng-model="student.name">
+            </div>
+            <div class="col">
+                <label class="form-label">Birthday</label>
+                <input type="date" class="form-control" ng-model="student.birthday">
+            </div>
+            <div class="col">
+                <label class="form-label">Mark</label>
+                <input type="text" class="form-control" ng-model="student.mark">
+            </div>
+            <div class="col mt-3">
+                <button class="btn btn-primary">Thêm</button>
+                <button class="btn btn-primary" ng-click="edit()">Sửa</button>
+                <button class="btn btn-primary" ng-click="delete()">Xóa</button>
+                <button class="btn btn-primary" ng-click="cancel()">Hủy</button>
+                <button class="btn btn-primary" ng-click="clear()">Mới</button>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-1 mt-3 g-3">
+        <table class="table table-bordered" ng-controller="viewCtrl">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Birthday</th>
+                <th>Mark</th>
+                <th>Rank</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in ListStudent track by $index">
+                <td>{{item.name}}</td>
+                <td>{{item.birthday}}</td>
+                <td>{{item.mark}}</td>
+                <td>{{item.rank}}
+                </td>
+                <td>
+                    <button class="btn btn-primary" ng-click="edit($index)">Edit</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+
+    app.factory('factory', () => {
+        var factory = {};
+        factory.ListStudent = [
+            {
+                name : "Nguyễn Văn An",
+                birthday : "02/06/2000",
+                mark : 8.5
+            },
+            {
+                name : "Nguyễn Văn Thành",
+                birthday: "02/06/2000",
+                mark: 9.5,
+            }
+        ];
+        factory.Rank = function (mark) {
+            if (mark < 5) {
+                return "Kém";
+            } else if (mark >= 5 && mark <= 6) {
+                return "Yếu";
+            } else if (mark >= 6 && mark <= 7) {
+                return "Trung bình";
+            } else if (mark >= 7 && mark <= 8) {
+                return "Khá";
+            } else if (mark >= 8 && mark <= 9) {
+                return "Giỏi";
+            } else {
+                return "Xuất sắc";
+            }
+
+        }
+        return factory;
+    });
+
+    app.controller('formCtrl', [ '$scope', 'factory', ($scope, factory) => {
+        $scope.$parent.student = {};
+
+        // Insert sinh viên
+        $scope.save = function () {
+            $scope.student.rank = factory.Rank($scope.student.mark)
+            factory.ListStudent.push(angular.copy($scope.student));
+            $scope.clear();
+        }
+        // Edit sinh viên
+        $scope.edit = function (index) {
+            $scope.index = index;
+            $scope.student = angular.copy(factory.ListStudent[index]);
+        }
+        // Update
+        $scope.update = function () {
+            factory.ListStudent[$scope.index] = angular.copy($scope.student);
+            $scope.clear();
+        }
+        // Delete
+        $scope.delete = function () {
+            factory.ListStudent.splice($scope.index,1);
+            $scope.clear();
+        }
+        $scope.cancel = function () {
+            $scope.student = {};
+        }
+        // Clear form fields
+        $scope.clear = function () {
+            $scope.student = {};
+            $scope.index = null;
+        };
+        // Initialize index variable
+        $scope.index = null;
+    }]);
+
+    app.controller('viewCtrl', [ '$scope', 'factory', ($scope, factory) => {
+        $scope.ListStudent = factory.ListStudent;
+        // Tính toán và gán xếp loại cho mỗi sinh viên
+        angular.forEach($scope.ListStudent, (student) => {
+            student.rank = factory.Rank(student.mark);
+        });
+    }]);
+
+</script>
+</body>
+</html>

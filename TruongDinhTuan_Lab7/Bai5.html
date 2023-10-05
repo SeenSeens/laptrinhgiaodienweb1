@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 5</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid mt-2" ng-controller="mycontroller">
+    <div class="row row-cols-4" >
+        <div class="col g-3" ng-repeat="product in products">
+            <div class="card">
+                <div class="card-header bg-primary text-center">{{product.name}}</div>
+                <div class="card-body">
+                    <img src="./images/{{product.image}}" class="img-fluid">
+                </div>
+                <div class="card-footer text-center">{{ product.price | currency : "VND"}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="angularjs_1.8.2.min.js"></script>
+<script>
+    var app = angular.module('myapp', []);
+    app.controller('mycontroller', function ($scope) {
+        $scope.products = []; // Khai báo mảng sản phẩm
+        $scope.products = [
+            {
+                name : "Laptop HP",
+                image : "app1.jpg",
+                price : 19000000
+            },
+            {
+                name : "Laptop HP",
+                image : "app2.jpg",
+                price : 20000000
+            },
+            {
+                name : "Laptop HP",
+                image : "app3.jpg",
+                price : 21000000
+            },
+            {
+                name : "Laptop HP",
+                image : "app4.jpg",
+                price : 22000000
+            },
+            {
+                name : "Laptop DELL",
+                image : "app1.jpg",
+                price : 19000000
+            },
+            {
+                name : "Laptop DELL",
+                image : "app2.jpg",
+                price : 20000000
+            },
+            {
+                name : "Laptop DELL",
+                image : "app3.jpg",
+                price : 21000000
+            },
+            {
+                name : "Laptop DELL",
+                image : "app4.jpg",
+                price : 22000000
+            }
+        ];
+    });
+</script>
+</body>
+</html>
