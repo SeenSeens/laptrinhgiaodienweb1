@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài 4</title>
-    <link rel="stylesheet" href="../bootstrap.min.css">
+    <title>Bài kiểm tra giữa kỳ</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
 </head>
 <body ng-app="App">
 <div class="container">
@@ -13,6 +13,19 @@
             <div class="card" ng-controller="Controller">
                 <div class="card-header text-uppercase text-center text-bg-primary">Danh sách hàng hóa</div>
                 <div class="card-body">
+                    <div class="row row-cols-3">
+                        <div class="col">
+                            <input class="form-control" type="text" ng-model="filterName" placeholder="Tìm theo tên">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="number" ng-model="filterMinPrice" placeholder="Giá từ">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="number" ng-model="filterMaxPrice" placeholder="Giá đến">
+                        </div>
+
+                    </div>
+
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -22,7 +35,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="item in dataList | orderBy:prop:reverse | limitTo:8:begin">
+                        <tr ng-repeat="item in filteredProducts = ( dataList | filter: { name: filterName } | filter: filterPriceRange | orderBy:prop:reverse | limitTo: 8: begin)">
                             <td>{{ item.name }}</td>
                             <td>{{ item.price | currency : 'VNĐ ' : '0'}}</td>
                             <td>{{ item.discount | percentage:2 }}</td>
@@ -41,7 +54,7 @@
         </div>
     </div>
 </div>
-<script src="../angularjs_1.8.2.min.js"></script>
+<script src="./angularjs_1.8.2.min.js"></script>
 <script>
     const app = angular.module('App', []);
     app.controller('Controller', ['$scope', '$http', '$filter', ($scope, $http, $filter) => {
@@ -56,8 +69,7 @@
 
         $scope.prop = '';
         $scope.reverse = false; // sắp xếp tăng (true, mặc định)
-
-
+        
         const sortOrders = {}; // Lưu trạng thái sắp xếp cho từng cột
 
         $http.get('data.json')
@@ -99,6 +111,16 @@
         };
         $scope.last = () => {
             $scope.begin = ($scope.pageCount - 1) * 8;
+        };
+
+        $scope.filterPriceRange = function(item) {
+            if (
+                ($scope.filterMinPrice === undefined || item.price >= $scope.filterMinPrice) &&
+                ($scope.filterMaxPrice === undefined || item.price <= $scope.filterMaxPrice)
+            ) {
+                return true;
+            }
+            return false;s
         };
     }]);
 

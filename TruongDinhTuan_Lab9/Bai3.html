@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 3</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body ng-app="App">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="card" ng-controller="Controller">
+                    <div class="card-header text-uppercase text-center text-bg-primary">Danh sách hàng hóa</div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="col in columns">{{ col | uppercase }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dataList | orderBy:'-price' | limitTo:8:3 ">
+                                    <td>{{ item.name | uppercase }}</td>
+                                    <td>{{ item.price | currency }}</td>
+                                    <td>{{ item.discount | percentage:2 }}</td>
+                                    <td>{{ item.date | date:"MMMM-dd-yyyy" }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="./angularjs_1.8.2.min.js"></script>
+<script src="./prods.js"></script>
+<script>
+    const app = angular.module('App', []);
+    app.controller('Controller', ($scope) => {
+        $scope.columns = [
+            'Sản phẩm',
+            'Đơn giá',
+            'Giảm giá',
+            'Ngày mua'
+        ];
+        $scope.dataList = list;
+    });
+    app.filter('percentage', ($filter) => {
+        return (input,decimals) => { return $filter('number')(input * 100, decimals) + ' %'; }
+    });
+</script>
+</body>
+</html>
