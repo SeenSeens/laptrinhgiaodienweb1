@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body ng-controller="myController">
+<section class="container">
+    <div class="row row-cols-1 justify-content-center g-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center text-uppercase bg-dark text-white">Bảng tính nước hàng tháng</div>
+                <div class="card-body">
+                    <div class="row row-cols-4 g-3">
+                        <div class="col"> <label>Khách hàng</label> </div>
+                        <div class="col"></div>
+                        <div class="col"> <label>Chỉ số mới</label> </div>
+                        <div class="col"> <label>Chỉ số cũ</label>  </div>
+                        <div class="col">
+                            <input type="text" class="form-control" ng-model="name">
+                        </div>
+                        <div class="col"></div>
+                        <div class="col">
+                            <input type="number" class="form-control" ng-model="new" ng-change="Consume()">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" ng-model="old" ng-change="Consume()">
+                        </div>
+                        <div class="col"> <label>Số nhân khẩu</label> </div>
+                        <div class="col"> <label>Số m<sup>3</sup> trong định mức</label> </div>
+                        <div class="col"> <label>Số m<sup>3</sup> vượt định mức</label> </div>
+                        <div class="col"> <label>Số m<sup>3</sup> tiêu thụ</label> </div>
+                        <div class="col">
+                            <input type="text" class="form-control" ng-model="people">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" ng-model="within" ng-change="Beyond()">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" ng-model="beyond" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" ng-model="consume" ng-change="Beyond()" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" ng-click="add()">Thêm</button>
+                    <button class="btn btn-primary" ng-click="edit()">Sửa</button>
+                    <button type="button" class="btn btn-primary" ng-click="delete()">Xóa</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên khách hàng</th>
+                        <th>Số nhân khẩu</th>
+                        <th>Chỉ số mới</th>
+                        <th>Chỉ số cũ</th>
+                        <th>Số m<sup>3</sup> tiêu thụ</th>
+                        <th>Trong ĐM</th>
+                        <th>Vượt ĐM</th>
+                        <th>Tiền nước</th>
+                        <th>Thuế MT 10%</th>
+                        <th>Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in dataList" ng-click="fillForm(item)">
+                        <td>{{$index + 1}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.people}}</td>
+                        <td>{{item.new}}</td>
+                        <td>{{item.old}}</td>
+                        <td>{{item.consume}}</td>
+                        <td>{{item.within}}</td>
+                        <td>{{item.beyond}}</td>
+                        <td>{{item.money}}</td>
+                        <td>{{item.tax}}</td>
+                        <td>{{item.total}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8" class="text-center">Tổng cộng</td>
+                        <td>1408000</td>
+                        <td>1408000</td>
+                        <td>1548000</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script>
+    const app = angular.module('myApp', []);
+    app.controller('myController', ['$scope', '$http', ($scope, $http) => {
+        $scope.dataList = [];
+        $scope.dataList = [
+            {
+                "name" : "Nguyễn Thành Trung",
+                "people" : 3,
+                "new" : 70,
+                "old" : 0,
+                "consume" : 70,
+                "within" : 12,
+                "beyond" : 58,
+                "money" : 512000000,
+                "tax" : 512000,
+                "total" : 5545121545
+            },
+            {
+                "name" : "Nguyễn Thành Trung",
+                "people" : 3,
+                "new" : 70,
+                "old" : 0,
+                "consume" : 70,
+                "within" : 12,
+                "beyond" : 58,
+                "money" : 512000000,
+                "tax" : 512000,
+                "total" : 5545121545
+            }
+        ];
+        $scope.selectedData = {};
+        /**
+         * Đọc dữ liệu từ file json
+         */
+        // $http.get('data.json')
+            //     .then((response) => {
+            //         $scope.dataList = angular.fromJson(response.data);
+            //     })
+            //     .catch((error) => {
+            //         console.error(error);
+            //     });
+        /**
+         * Hàm này được chạy khi nhấp vào 1 dòng
+         */
+        $scope.fillForm = (data) => {
+            $scope.name = data.name;
+            $scope.people = data.people;
+            $scope.new = data.new;
+            $scope.old = data.old;
+            $scope.consume = data.consume;
+            $scope.within = data.within;
+            $scope.beyond = data.beyond;
+            $scope.money = data.money;
+            $scope.tax = data.tax;
+            $scope.total = data.total;
+            // Cập nhật selectedData
+            $scope.selectedData = data;
+        }
+        $scope.add = function () {
+            if (this.isInputValid()) {
+                const item = {
+                    "no": this.dataList.length + 1,
+                    "name": this.name,
+                    "people": this.people,
+                    "new": this.new,
+                    "old": this.old,
+                    "consume": this.consume,
+                    "within": this.within,
+                    "beyond": this.beyond,
+                    "money": this.money,
+                    "tax": this.tax,
+                    "total": this.total
+                };
+                this.dataList[this.dataList.length] = item;
+                this.clear();
+            } else {
+                alert("Vui lòng điền đầy đủ thông tin trước khi thêm.");
+            }
+        }
+        $scope.edit = function () {
+            if(this.selectedData && this.selectedData.no) {
+                // Tìm vị trí của sinh viên trong mảng và cập nhật thông tin
+                const index = this.dataList.findIndex(function(item) {
+                    return item.no === $scope.selectedData.no;
+                });
+                if (index !== -1) {
+                    this.dataList[index].name = this.name;
+                    this.dataList[index].people = this.people;
+                    this.dataList[index].new = this.new;
+                    this.dataList[index].old = this.old;
+                    this.dataList[index].consume = this.consume;
+                    this.dataList[index].within = this.within;
+                    this.dataList[index].beyond = this.beyond;
+                    this.dataList[index].money = this.money;
+                    this.dataList[index].tax = this.tax;
+                    this.dataList[index].total = this.total;
+                }
+                // Sau khi chỉnh sửa xong, đặt lại selectedStudent và xóa trường nhập liệu
+                $scope.selectedData = {};
+                $scope.clear();
+            }
+        }
+        $scope.delete = function () {
+            if (this.selectedData && this.selectedData.no) {
+                // Tìm vị trí của tên khách hàng trong mảng và xóa
+                const index = this.dataList.findIndex(function(item) {
+                    return item.no === $scope.selectedData.no;
+                });
+
+                if (index !== -1) {
+                    this.dataList.splice(index, 1);
+                }
+
+                // Sau khi xóa xong, đặt lại selectedStudent và xóa trường nhập liệu
+                this.selectedData = {};
+                this.clear();
+            }
+        }
+        /**
+         * Clear input
+         */
+        $scope.clear = function () {
+            this.name = '';
+            this.people = '';
+            this.new = '';
+            this.old = '';
+            this.consume = '';
+            this.within = '';
+            this.beyond = '';
+            this.money = '';
+            this.tax = '';
+            this.total = '';
+        }
+        /**
+         * Hàm tính số m^3 tiêu thụ
+         */
+        $scope.Consume = function () {
+            if (angular.isNumber($scope.new) && angular.isNumber($scope.old)) {
+                $scope.consume = $scope.new - $scope.old;
+            } else {
+                $scope.consume = 0; // Đặt giá trị consume về 0 nếu không phải là số
+            }
+        }
+        /**
+         * Hàm tính số m^3 vượt định mức
+         */
+        $scope.Beyond = function () {
+            if (angular.isNumber($scope.within) && angular.isNumber($scope.consume)) {
+                $scope.beyond = $scope.consume - $scope.within;
+            } else {
+                $scope.beyond = 0; // Đặt giá trị consume về 0 nếu không phải là số
+            }
+        }
+        /**
+         * Hàm tính tiền nước
+         */
+
+        /**
+         * Hàm tính thuế
+         */
+
+        /**
+         * Hàm tính tổng
+         */
+
+        $scope.isInputValid = function () {
+            // Kiểm tra xem các trường nhập liệu có rỗng hay không
+            return (
+                this.name !== '' &&
+                this.people !== '' &&
+                this.new !== '' &&
+                this.old !== '' &&
+                this.consume !== '' &&
+                this.within !== '' &&
+                this.beyond !== '' &&
+                this.money !== '' &&
+                this.tax !== '' &&
+                this.total !== ''
+            );
+        }
+    }]);
+</script>
+</body>
+</html>

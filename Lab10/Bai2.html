@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 2</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <link rel="stylesheet" href="../all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card" ng-controller="lab10Controller">
+                <div class="card-header text-center text-uppercase text-primary">Danh sách sinh viên</div>
+                <div class="card-body">
+                    <div class="row row-cols-2 mb-2">
+                        <div class="col">
+                            <span>Lớp hiện tại:</span>
+                            <select class="form-control" ng-model="selectedCurrentClass">
+                                <option ng-repeat="lop in DS_Lop" value="{{lop.malop}}">{{lop.tenlop}}</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <span>Lớp chuyển:</span>
+                            <select class="form-control" ng-model="selectedTransferClass">
+                                <option ng-repeat="lop in DS_Lop" value="{{lop.malop}}">{{lop.tenlop}}</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="input-group">
+                                <label class="input-group-text">Họ và tên</label>
+                                <input type="text" class="form-control" ng-model="tensv">
+                                <button class="btn btn-primary">Thêm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <label>Danh sách lớp hiện tại</label>
+                            <table class="form-control table table-hover">
+                                <tbody>
+                                    <tr ng-repeat="sv in sinhvien | filter: {malop_sv: selectedCurrentClass}" ng-click="fillForm(sv)">
+                                        <td class="border-0">{{sv.tensv}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-2">
+                            <label class="disabled"></label>
+                            <button class="btn btn-primary mb-2 w-100" ng-click="moveStudentToCurrentClass(selectedStudent)"><i class="fa-solid fa-angle-left fa-beat-fade"></i></button>
+                            <button class="btn btn-primary mb-2 w-100" ng-click="moveStudentToTransferClass(selectedStudent)"><i class="fa-solid fa-angle-right fa-beat-fade"></i></button>
+                            <button class="btn btn-primary mb-2 w-100" ng-click="moveAllStudentToCurrentClass()"><i class="fa-solid fa-angles-left fa-beat-fade"></i></button>
+                            <button class="btn btn-primary mb-2 w-100" ng-click="moveAllStudentToTransferClass()"><i class="fa-solid fa-angles-right fa-beat-fade"></i></button>
+                        </div>
+                        <div class="col-5">
+                            <label>Danh sách lớp chuyển</label>
+                            <table class="form-control table table-hover">
+                                <tbody>
+                                    <tr ng-repeat="sv in sinhvien | filter: {malop_sv: selectedTransferClass}" ng-click="fillForm(sv)">
+                                        <td class="border-0">{{sv.tensv}}, {{sv.malop_sv}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../all.min.js"></script>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script>
+    const app = angular.module('myApp', []);
+    app.controller('lab10Controller', ($scope) => {
+        $scope.DS_Lop = [
+            {
+                malop: 1, tenlop: ' CD21CT1'
+            },
+            {
+                malop: 2, tenlop: 'CD21KT1'
+            },
+            {
+                malop: 3, tenlop: 'CD21DH1'
+            },
+            {
+                malop: 4, tenlop: 'CD21ML1'
+            },
+            {
+                malop: 5, tenlop: 'CD21TC1'
+            }
+        ];
+        $scope.sinhvien = [
+            {
+                masv: 501210001, tensv: 'Nguyễn Văn An', malop_sv: 1
+            },
+            {
+                masv: 501210002, tensv: 'Nguyễn Văn Thành', malop_sv: 1
+            },
+            {
+                masv: 501210003, tensv: 'Nguyễn Thành Nhân', malop_sv: 1
+            },
+            {
+                masv: 501210004, tensv: 'Nguyễn Thành Lợi', malop_sv: 1
+            },
+            {
+                masv: 501210005, tensv: 'Nguyễn Văn An', malop_sv: 2
+            },
+            {
+                masv: 501210006, tensv: 'Quách Tấn Thành', malop_sv: 2
+            },
+            {
+                masv: 501210007, tensv: 'Trần Ngọc Lĩnh', malop_sv: 2
+            },
+            {
+                masv: 501210008, tensv: 'Nguyễn Hoài Thành', malop_sv: 2
+            }
+        ];
+        $scope.selectedCurrentClass = 1;
+        $scope.selectedTransferClass = 2;
+        // Tạo bản sao của danh sách sinh viên cho lớp hiện tại và danh sách sinh viên cho lớp chuyển
+        //const copyOfCurrentClassStudents = $scope.sinhvien.filter(sv => sv.malop_sv === $scope.selectedCurrentClass);
+        //const copyOfTransferClassStudents = $scope.sinhvien.filter(sv => sv.malop_sv === $scope.selectedTransferClass);
+        /**
+         * Hàm này được chạy khi nhấp vào 1 dòng
+         */
+        $scope.fillForm = function (student) {
+            $scope.tensv = student.tensv;
+            // Cập nhật selectedStudent
+            $scope.selectedStudent = student;
+        }
+        /**
+         *
+         */
+        $scope.moveStudents = function(action) {
+            if (action === 'toTransfer') {
+                // Thực hiện logic để di chuyển sinh viên từ lớp hiện tại đến lớp chuyển
+                // Bạn có thể sử dụng $scope.DS_Lop và $scope.sinhvien để thay đổi dữ liệu.
+            }
+            // Thực hiện logic tương tự cho các hành động khác.
+        };
+        /**
+         *
+         */
+        $scope.moveAllStudents = function(fromClass, toClass) {
+            // Thực hiện logic để di chuyển tất cả sinh viên từ 'fromClass' đến 'toClass'
+            // Bạn có thể sử dụng $scope.DS_Lop và $scope.sinhvien để thay đổi dữ liệu.
+        };
+        /**
+         * Hàm di chuyển sinh viên từ lớp hiện sang lớp chuyển
+         */
+        $scope.moveStudentToTransferClass  = (student) => {
+            // Di chuyển sinh viên đã chọn từ lớp hiện tại sang lớp chuyển.
+            student.malop_sv = $scope.selectedTransferClass;
+        };
+        /**
+         * Hàm di chuyển sinh viên từ lớp chuyển sang lớp hiện
+         */
+        $scope.moveStudentToCurrentClass = (student) => {
+            student.malop_sv = $scope.selectedCurrentClass;
+        };
+
+        /**
+         * Hàm di chuyển toàn bộ sinh viên từ lớp hiện sang lớp chuyển
+         */
+        $scope.moveAllStudentToCurrentClass = () => {
+            // Lọc danh sách sinh viên hiện tại
+            const studentsInCurrentClass = $scope.sinhvien.filter(sv => sv.malop_sv === $scope.selectedCurrentClass);
+
+            // Lọc danh sách sinh viên trong lớp chuyển
+            const studentsInTransferClass = $scope.sinhvien.filter(sv => sv.malop_sv === $scope.selectedTransferClass);
+
+            // Xóa tất cả sinh viên khỏi lớp chuyển
+            studentsInTransferClass.forEach(student => {
+                student.malop_sv = $scope.selectedCurrentClass;
+            });
+
+            // angular.forEach($scope.sinhvien, function(student) {
+            //     student.malop_sv = $scope.selectedCurrentClass;
+            //
+            // });
+        };
+
+        /**
+         * Hàm di chuyển toàn bộ sinh viên từ lớp chuyển sang lớp hiện
+         */
+        $scope.moveAllStudentToTransferClass = () => {
+            // Lọc danh sách sinh viên trong lớp chuyển
+            const studentsInTransferClass = $scope.sinhvien.filter(sv => sv.malop_sv === $scope.selectedTransferClass);
+            angular.forEach($scope.sinhvien, function(student) {
+                student.malop_sv = $scope.selectedTransferClass;
+            });
+            // Xóa tất cả sinh viên khỏi lớp chuyển
+            studentsInTransferClass.forEach(student => {
+                student.malop_sv = $scope.selectedCurrentClass;
+            });
+        };
+    });
+</script>
+</body>
+</html>

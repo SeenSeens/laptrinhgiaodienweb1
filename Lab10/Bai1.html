@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bài 1</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row row-cols-2 justify-content-center">
+        <div class="col">
+            <div class="card" ng-controller="lab10Controller">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label class="input-group-text bg-secondary-subtle">Nhập số nguyên</label>
+                        <input type="text" class="form-control">
+                        <button class="btn btn-primary">Thêm</button>
+                    </div>
+                    <div class="row row-cols-2 mt-3">
+                        <div class="col">
+<!--                                <label>Danh sách các phần tử</label>-->
+<!--                                <select ng-model="selectItems" ng-options="item as item.label for item in list track by item.id" multiple class="form-control"></select>-->
+<!--                            <select ng-options="selectedItems" multiple class="form-control">-->
+<!--                                <option ng-selected="item.selected" ng-repeat="item in list track by $index" value="{{item.id}}">{{item.id}}</option>-->
+<!--                            </select>-->
+<!--                            {{selectedItems}}-->
+
+
+                            <div class="form-control">
+                                <ul class="list-unstyled ps-3">
+                                    <li ng-repeat="list in list">{{list.id}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary mb-2" ng-click>Tăng mỗi phần tử lên 2</button>
+                            <button class="btn btn-primary mb-2">Chọn số chẵn đầu</button>
+                            <button class="btn btn-primary mb-2">Chọn số lẻ cuối</button>
+                            <button class="btn btn-primary mb-2" ng-click="list.splice()">Xóa phần tử đang chọn</button>
+                            <button class="btn btn-primary mb-2" ng-click="list.shift()">Xóa phần tử đầu</button>
+                            <button class="btn btn-primary mb-2" ng-click="list.pop()">Xóa phần tử cuối</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script>
+    const app = angular.module('myApp', []);
+    app.controller('lab10Controller', ($scope) => {
+        $scope.list = [
+            { id: 2, selected: false },
+            { id: 4, selected: false },
+            { id: 7, selected: false },
+            { id: 10, selected: false },
+            { id: 9, selected: false },
+            { id: 5, selected: false }
+        ];
+        $scope.list.shift();//Xóa phần tử đầu.
+        $scope.list.pop();//Xóa phần tử cuối.
+        $scope.list.splice(); //Xóa phần tử được chọn
+    });
+</script>
+</body>
+</html>
