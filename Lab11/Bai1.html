@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 1</title>
+</head>
+<link rel="stylesheet" href="../bootstrap.min.css">
+<link rel="stylesheet" href="../all.min.css">
+<style>
+    .td {
+        background-color: burlywood;
+    }
+</style>
+<body ng-app="myApp">
+<section class="container" ng-controller="lab11Ctrl">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th ng-repeat="col in Columns">{{ col }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in SinhVien" ng-class="{td: $index==row}">
+                        <td scope="row">{{ $index + 1 }}</td>
+                        <td><input type="text" class="form-control" ng-disabled="!ch" ng-model="item.tensv"></td>
+                        <td><input type="text" class="form-control" ng-disabled="!ch" ng-model="item.ngaysinh"></td>
+                        <td><input type="text" class="form-control" ng-disabled="!ch" ng-model="item.diachi"></td>
+                        <td><input type="email" class="form-control" ng-disabled="!ch" ng-model="item.email"></td>
+                        <td>
+                            <a ng-click="ch=Update($index)"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <a ng-click="Delete($index)"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row"></td>
+                        <td><input type="text" class="form-control" ng-model="tensv"></td>
+                        <td><input type="date" class="form-control" ng-model="ngaysinh"></td>
+                        <td><input type="text" class="form-control" ng-model="diachi"></td>
+                        <td><input type="email" class="form-control" ng-model="email"></td>
+                        <td>
+                            <button class="btn btn-primary" ng-click="Add()">Add</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script>
+    const app = angular.module('myApp', []);
+    app.controller('lab11Ctrl', ($scope) => {
+        $scope.SinhVien = [];
+
+        $scope.Columns = [ "STT", "Họ và Tên", "Ngày sinh", "Địa chỉ", "Email", "Chọn" ];
+
+        $scope.Add = () => {
+            $scope.SinhVien.push({
+                tensv : $scope.tensv,
+                ngaysinh : $scope.ngaysinh.toLocaleDateString(),
+                diachi : $scope.diachi,
+                email : $scope.email
+            });
+            $scope.Empty();
+        };
+
+        $scope.check = true;
+
+        $scope.Empty = () => {
+            $scope.tensv = null;
+            $scope.ngaysinh = null;
+            $scope.diachi = null;
+            $scope.email = null;
+        };
+
+        $scope.Update = (index) => {
+            $scope.row = index;
+            if($scope.check === true) {
+                $scope.check = false;
+                return true;
+            } else {
+                $scope.check = true
+                return false;
+            }
+        };
+
+        $scope.Delete = (index) => {
+            if(confirm('Bạn có muốn xóa hay không'));
+                $scope.SinhVien.splice(index, 1);
+        }
+    });
+</script>
+</body>
+</html>

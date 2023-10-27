@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 2</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <link rel="stylesheet" href="../datatables.bootstrap.css">
+</head>
+<body ng-app="myApp">
+<section class="container" ng-controller="lab11Ctrl" ng-init="fetch_data()">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center text-uppercase fs-4 text-danger">
+                    <label>Danh sách sinh viên</label>
+                </div>
+                <div class="card-body">
+                    <table datatable="ng" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th ng-repeat="col in Columns">{{ col }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in lists track by $index">
+                                <td> {{ $index +1 }}</td>
+                                <td>{{ item.id }}</td>
+                                <td> {{ item.first_name }}</td>
+                                <td> {{ item.last_name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script src="../jquery.min.js"></script>
+<script src="../angularjs_1.8.2.min.js"></script>
+<script src="../jquery.dataTables.min.js"></script>
+<script src="../angular-datatables.min.js"></script>
+<script src="../bootstrap.bundle.min.js"></script>
+<script>
+    const app = angular.module('myApp', ['datatables']);
+    app.controller('lab11Ctrl', ($scope, $http) => {
+        $scope.Columns = [ "ID", "First Name", "Last Name"];
+
+        $scope.fetch_data = () => {
+            $http.get("List.php")
+                .then(res => {
+                    $scope.lists = res.data;
+                    // console.log($scope.lists);
+                })
+                .catch(err => {
+                    console.log('Lỗi: ', err);
+                });
+
+        }
+    });
+</script>
+</body>
+</html>
