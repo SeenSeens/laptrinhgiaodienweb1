@@ -1,63 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Bài 2</title>
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="../bootstrap.min.css">
-    <link rel="stylesheet" href="../datatables.bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/af-2.6.0/datatables.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
-<body ng-app="myApp">
-<section class="container" ng-controller="lab11Ctrl" ng-init="fetch_data()">
-    <div class="row">
+<body ng-app="App">
+<section class="container" ng-controller="Lab11Controller" ng-init="fetchData()">
+    <div class="row mt-3">
         <div class="col">
-            <div class="card">
-                <div class="card-header text-center text-uppercase fs-4 text-danger">
-                    <label>Danh sách sinh viên</label>
-                </div>
-                <div class="card-body">
-                    <table datatable="ng" class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="text-center">
-                                <th ng-repeat="col in Columns">{{ col }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in lists track by $index">
-                                <td> {{ $index +1 }}</td>
-                                <td>{{ item.id }}</td>
-                                <td> {{ item.first_name }}</td>
-                                <td> {{ item.last_name }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="text-center bg-primary-subtle mb-2">
+                <label class="py-3 text-uppercase fs-4">Danh sách sinh viên</label>
             </div>
-
+            <table datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" ng-repeat="col in Columns" class="text-center">{{ col }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="name in namesData">
+                        <<th scope="row" class="text-center"> {{ $index + 1 }} </th>
+                        <td> {{ name.first_name }}</td>
+                        <td> {{ name.last_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
-<script src="../jquery.min.js"></script>
-<script src="../angularjs_1.8.2.min.js"></script>
-<script src="../jquery.dataTables.min.js"></script>
-<script src="../angular-datatables.min.js"></script>
-<script src="../bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.4/angular-datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/af-2.6.0/datatables.min.js"></script>
 <script>
-    const app = angular.module('myApp', ['datatables']);
-    app.controller('lab11Ctrl', ($scope, $http) => {
-        $scope.Columns = [ "ID", "First Name", "Last Name"];
+    const app = angular.module('App', ['datatables']);
+    app.controller('Lab11Controller', ($scope, $http, DTOptionsBuilder) =>{
 
-        $scope.fetch_data = () => {
-            $http.get("List.php")
-                .then(res => {
-                    $scope.lists = res.data;
-                    // console.log($scope.lists);
-                })
+        $scope.Columns = [ "STT", "First Name", "Last Name"];
+        $scope.fetchData = () => {
+            $http.get('list.php').then(res => {
+                $scope.namesData = res.data;
+                console.log($scope.namesData);
+            })
                 .catch(err => {
                     console.log('Lỗi: ', err);
                 });
 
         }
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
+
     });
 </script>
 </body>

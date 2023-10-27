@@ -3,7 +3,6 @@
 class DatabaseConnection {
     private static $instance = null;
     private $connection;
-
     private $host = "localhost";
     private $dbname = "angularjs-php-crud";
     private $username = "root";

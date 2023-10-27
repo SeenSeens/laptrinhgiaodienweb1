@@ -5,21 +5,14 @@ app.controller('crudController', function($scope, $http, DTOptionsBuilder){
 
     $scope.error = false;
 
-    // $scope.fetchData = function(){
-    //     $http.get('common/fetch_data.php').success(function(data){
-    //         $scope.namesData = data;
-    //     });
-    // };
-
     $scope.fetchData = () => {
-        $http.get('common/fetch_data.php')
-            .then(res => {
-                $scope.namesData = res.data;
-                console.log($scope.lists);
-            })
-            .catch(err => {
-                console.log('Lỗi: ', err);
-            });
+        $http.get('common/fetch_data.php').then(res => {
+            $scope.namesData = res.data;
+            console.log($scope.namesData);
+        })
+        .catch(err => {
+            console.log('Lỗi: ', err);
+        });
 
     }
     $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
@@ -50,19 +43,22 @@ app.controller('crudController', function($scope, $http, DTOptionsBuilder){
                 'action': $scope.submit_button,
                 'id': $scope.hidden_id
             }
-        }).success(function (data) {
-            if (data.error) {
+        }).then( res => {
+            if (res.error) {
                 $scope.success = false;
                 $scope.error = true;
-                $scope.errorMessage = data.error;
+                $scope.errorMessage = res.error;
             } else {
                 $scope.success = true;
                 $scope.error = false;
-                $scope.successMessage = data.message;
+                $scope.successMessage = res.message;
                 $scope.form_data = {};
                 $scope.closeModal();
                 $scope.fetchData();
             }
+        })
+        .catch(err => {
+            console.log('Lỗi: ', err);
         });
     };
 
@@ -71,28 +67,32 @@ app.controller('crudController', function($scope, $http, DTOptionsBuilder){
             method:"POST",
             url:"common/edit.php",
             data:{'id':id, 'action':'fetch_single_data'}
-        }).success(function(data){
-            $scope.first_name = data.first_name;
-            $scope.last_name = data.last_name;
+        }).then(res => {
+            $scope.first_name = res.first_name;
+            $scope.last_name = res.last_name;
             $scope.hidden_id = id;
             $scope.modalTitle = 'Edit Data';
             $scope.submit_button = 'Edit';
             $scope.openModal();
+        })
+        .catch(err => {
+            console.log('Lỗi: ', err);
         });
     };
 
     $scope.deleteData = function(id){
-        if(confirm("Are you sure you want to remove it?"))
-        {
+        if(confirm("Are you sure you want to remove it?")) {
             $http({
                 method:"POST",
                 url:"common/delete.php",
                 data:{'id':id, 'action':'Delete'}
-            }).success(function(data){
+            }).then(res => {
                 $scope.success = true;
                 $scope.error = false;
-                $scope.successMessage = data.message;
+                $scope.successMessage = res.message;
                 $scope.fetchData();
+            }).catch(err => {
+                console.log('Lỗi: ', err);
             });
         }
     };

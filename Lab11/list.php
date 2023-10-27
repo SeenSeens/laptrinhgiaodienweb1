@@ -1,6 +1,6 @@
 <?php
 
-require_once 'database_connection.php';
+require_once 'Connect.php';
 
 class DataFetcher {
     private $connection;
@@ -11,7 +11,7 @@ class DataFetcher {
 
     public function fetchData() {
         try {
-            $statement = $this->connection->prepare("SELECT * FROM tbl_sample ORDER BY id");
+            $statement = $this->connection->prepare("SELECT * FROM sinhvien ORDER BY id");
 
             if ($statement->execute()) :
                 $data = [];

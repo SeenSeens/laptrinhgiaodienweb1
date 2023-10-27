@@ -1,26 +1,26 @@
-<!doctype html>
-<html lang="en" ng-app="myApp">
+<!DOCTYPE html>
+<html lang="vi" ng-app="App">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bài 3</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/af-2.6.0/datatables.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
-<body ng-controller="myCtrl">
-<section class="container">
-    <div class="row row-cols-1 justify-content-center g-3">
+<body ng-controller="Lab11Controller">
+<section class="container" ng-init="fetchData()">
+    <div class="row row-cols-1 justify-content-center g-3 mt-2">
         <div class="col-6">
             <div class="card">
                 <div class="card-header text-center text-uppercase fs-4 fw-bold text-primary">Quản lý sinh viên</div>
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form method="post" ng-submit="submitForm()">
                         <label>First Name</label>
-                        <input type="text" class="form-control" name="first_name">
+                        <input type="text" class="form-control" name="first_name" ng-model="first_name">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" name="last_name">
-                        <button class="btn btn-primary mt-2">Add</button>
+                        <input type="text" class="form-control" name="last_name" ng-model="last_name">
+                        <input type="hidden" name="hidden_id" value="{{hidden_id}}" />
+                        <button type="submit" name="submit" id="submit" class="btn btn-primary mt-2">Add</button>
                     </form>
                 </div>
                 <div class="card-footer">
@@ -28,49 +28,103 @@
             </div>
         </div>
         <div class="col">
-            <table class="table table-bordered text-center">
+            <div class="text-center bg-primary-subtle mb-2">
+                <label class="py-3 text-uppercase fs-4">Danh sách sinh viên</label>
+            </div>
+            <table datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-hover">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                </tr>
+                    <tr class="text-center">
+                        <th scope="col" ng-repeat="col in Columns" class="text-center">{{ col }}</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="student in students track by $index">
-                        <td>{{student.id}}</td>
-                        <td>{{student.first_name}}</td>
-                        <td>{{student.last_name}}</td>
+                    <tr ng-repeat="name in namesData" ng-click="fillForm(name)">
+                        <th scope="row" class="text-center"> {{ $index + 1 }} </th>
+                        <td> {{ name.first_name }}</td>
+                        <td> {{ name.last_name }}</td>
+                        <td class="text-center"><button type="button" ng-click="deleteData(name.id)" class="btn btn-danger btn-sm">Delete</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-<script>
-    const app = angular.module('myApp', []);
-    app.service('StudentService', function($http) {
-        this.getStudents = function() {
-            return $http.get('List.php');
-        };
-    });
-    app.controller('myCtrl', ['$scope', '$http', 'StudentService', function ($scope, $http, StudentService, DTOptionsBuilder) {
-        $scope.students = [];
-        // $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.4/angular-datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/af-2.6.0/datatables.min.js"></script>
 
-        $scope.fetchData = function () {
-            StudentService.getStudents().then(function(response) {
-                console.log(response.data); // Kiểm tra dữ liệu đã được trả về
-                $scope.students = response.data;
-            }).catch(function(error) {
-                // Xử lý lỗi nếu cần
-                console.error(error);
+<script>
+    const app = angular.module('App', ['datatables']);
+    app.controller('Lab11Controller', ($scope, $http, DTOptionsBuilder) =>{
+
+        $scope.Columns = [ "STT", "First Name", "Last Name" ];
+        $scope.selectedStudent = {};
+        $scope.fetchData = () => {
+            $http.get('list.php').then(res => {
+                $scope.namesData = res.data;
+            }).catch(err => {
+                console.log('Lỗi: ', err);
+            });
+        }
+        $scope.fetchData();
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
+
+        $scope.submitForm = () => {
+            $scope.submit_button = 'Insert';
+            $http({
+                method: "POST",
+                url: "Insert.php",
+                data: {
+                    'first_name': $scope.first_name,
+                    'last_name': $scope.last_name,
+                    'action': $scope.submit_button,
+                    'id': $scope.hidden_id
+                }
+            }).then( () => {
+                $scope.form_data = {};
+                $scope.fetchData();
+                $scope.clear();
+            }).catch(err => {
+                console.log('Lỗi: ', err);
             });
         };
-        $scope.fetchData();
-    }]);
+
+        $scope.deleteData = (id) =>{
+            if(confirm("Bạn có muốn xóa hay không?")) {
+                $http({
+                    method:"POST",
+                    url:"Delete.php",
+                    data:{'id': id, 'action':'Delete'}
+                }).then(() => {
+                    $scope.fetchData();
+                }).catch(err => {
+                    console.log('Lỗi: ', err);
+                });
+            }
+        };
+
+        /**
+         * Hàm này được chạy khi nhấp vào 1 dòng
+         */
+        $scope.fillForm = (student) => {
+            $scope.first_name = student.first_name;
+            $scope.last_name = student.last_name;
+            // Cập nhật selectedStudent
+            $scope.selectedStudent = student;
+        }
+
+        /**
+         * Clear input
+         */
+        $scope.clear = () => {
+            $scope.first_name = null;
+            $scope.last_name = null;
+        }
+    });
 </script>
 </body>
 </html>
