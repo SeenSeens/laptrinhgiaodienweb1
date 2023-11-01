@@ -23,41 +23,29 @@ class DataEditHandler
                 $statement = $this->connection->prepare("SELECT * FROM sinhvien WHERE id = :id");
                 $statement->bindParam(':id', $form_data->id, PDO::PARAM_INT);
                 $statement->execute();
-                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $result = $statement->fetchAll();
 
                 foreach ($result as $row) :
                     $output['first_name'] = $row['first_name'];
                     $output['last_name'] = $row['last_name'];
                 endforeach;
-
-                if (empty($form_data->first_name)) :
-                    $error[] = 'First Name is Required';
-                else :
-                    $first_name = $form_data->first_name;
-                endif;
-
-                if (empty($form_data->last_name)) :
-                    $error[] = 'Last Name is Required';
-                else :
-                    $last_name = $form_data->last_name;
-                endif;
-
+            else :
+                $first_name = $form_data->first_name;
+                $last_name = $form_data->last_name;
+                $id = $form_data->id;
                 if (empty($error)) :
                     if ($form_data->action === 'Edit') :
                         $data = [
                             ':first_name' => $first_name,
                             ':last_name' => $last_name,
-                            ':id' => $form_data->id
+                            ':id' => $id
                         ];
                         $query = "UPDATE sinhvien SET first_name = :first_name, last_name = :last_name WHERE id = :id";
+                        $statement = $this->connection->prepare($query);
+                        if ($statement->execute($data)) :
+                            $message = 'Data Edited';
+                        endif;
                     endif;
-
-                    $statement = $this->connection->prepare($query);
-
-                    if ($statement->execute($data)) :
-                        $message = 'Data Edited';
-                    endif;
-
                 else :
                     $validation_error = implode(", ", $error);
                 endif;

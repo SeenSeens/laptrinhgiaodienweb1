@@ -15,12 +15,14 @@
                 <div class="card-header text-center text-uppercase fs-4 fw-bold text-primary">Quản lý sinh viên</div>
                 <div class="card-body">
                     <form method="post" ng-submit="submitForm()">
+                        <label>ID</label>
+                        <input type="text" class="form-control" name="id" ng-model="id" disabled>
                         <label>First Name</label>
                         <input type="text" class="form-control" name="first_name" ng-model="first_name">
                         <label>Last Name</label>
                         <input type="text" class="form-control" name="last_name" ng-model="last_name">
                         <input type="hidden" name="hidden_id" value="{{hidden_id}}" />
-                        <button type="submit" name="submit" id="submit" class="btn btn-primary mt-2">Add</button>
+                        <button type="submit" name="submit" class="btn btn-primary mt-2">{{ submit_button }}</button>
                     </form>
                 </div>
                 <div class="card-footer">
@@ -43,7 +45,10 @@
                         <th scope="row" class="text-center"> {{ $index + 1 }} </th>
                         <td> {{ name.first_name }}</td>
                         <td> {{ name.last_name }}</td>
-                        <td class="text-center"><button type="button" ng-click="deleteData(name.id)" class="btn btn-danger btn-sm">Delete</button></td>
+                        <td class="text-center">
+                            <button type="button" ng-click="fetchSingleData(name.id)" class="btn btn-warning btn-sm">Edit</button>
+                            <button type="button" ng-click="deleteData(name.id)" class="btn btn-danger btn-sm">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -59,10 +64,15 @@
 
 <script>
     const app = angular.module('App', ['datatables']);
-    app.controller('Lab11Controller', ($scope, $http, DTOptionsBuilder) =>{
-
+    app.controller('Lab11Controller', ($scope, $http, DTOptionsBuilder) => {
         $scope.Columns = [ "STT", "First Name", "Last Name" ];
         $scope.selectedStudent = {};
+        $scope.submit_button = "Add";
+
+        $scope.init = () => {
+            $scope.fetchData();
+            $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
+        }
         $scope.fetchData = () => {
             $http.get('list.php').then(res => {
                 $scope.namesData = res.data;
@@ -70,24 +80,60 @@
                 console.log('Lỗi: ', err);
             });
         }
-        $scope.fetchData();
-        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'asc']]);
 
         $scope.submitForm = () => {
-            $scope.submit_button = 'Insert';
+            if ($scope.submit_button === 'Add') {
+                $scope.submit_button = 'Insert';
+                $http({
+                    method: "POST",
+                    url: "Insert.php",
+                    data: {
+                        'first_name': $scope.first_name,
+                        'last_name': $scope.last_name,
+                        'action': $scope.submit_button,
+                        'id': $scope.hidden_id
+                    }
+                }).then( () => {
+                    $scope.form_data = {};
+                    $scope.fetchData();
+                    $scope.clear();
+                }).catch(err => {
+                    console.log('Lỗi: ', err);
+                });
+            } else if ($scope.submit_button === 'Edit') {
+                // Xử lý sửa dữ liệu
+                $http({
+                    method: "POST",
+                    url: "Edit.php",
+                    data: {
+                        'first_name': $scope.first_name,
+                        'last_name': $scope.last_name,
+                        'action': 'Edit',
+                        'id': $scope.hidden_id
+                    }
+                }).then(() => {
+                    $scope.form_data = {};
+                    $scope.fetchData();
+                    $scope.clear();
+                }).catch(err => {
+                    console.log('Lỗi: ', err);
+                });
+            }
+
+
+        };
+
+        $scope.fetchSingleData = (id) => {
             $http({
-                method: "POST",
-                url: "Insert.php",
-                data: {
-                    'first_name': $scope.first_name,
-                    'last_name': $scope.last_name,
-                    'action': $scope.submit_button,
-                    'id': $scope.hidden_id
-                }
-            }).then( () => {
-                $scope.form_data = {};
-                $scope.fetchData();
-                $scope.clear();
+                method:"POST",
+                url:"Edit.php",
+                data:{'id':id, 'action':'fetch_single_data'}
+            }).then(res => {
+                $scope.id = id;
+                $scope.first_name = res.data.first_name;
+                $scope.last_name = res.data.last_name;
+                $scope.hidden_id = id;
+                $scope.submit_button = 'Edit';
             }).catch(err => {
                 console.log('Lỗi: ', err);
             });
@@ -110,19 +156,23 @@
         /**
          * Hàm này được chạy khi nhấp vào 1 dòng
          */
-        $scope.fillForm = (student) => {
-            $scope.first_name = student.first_name;
-            $scope.last_name = student.last_name;
-            // Cập nhật selectedStudent
-            $scope.selectedStudent = student;
-        }
+        // $scope.fillForm = (student) => {
+        //     $scope.id = student.id;
+        //     $scope.first_name = student.first_name;
+        //     $scope.last_name = student.last_name;
+        //     // Cập nhật selectedStudent
+        //     $scope.selectedStudent = student;
+        // }
 
         /**
          * Clear input
          */
         $scope.clear = () => {
-            $scope.first_name = null;
-            $scope.last_name = null;
+            $scope.id = "";
+            $scope.first_name = "";
+            $scope.last_name = "";
+            $scope.hidden_id = "";
+            $scope.submit_button = "Add";
         }
     });
 </script>
