@@ -21,30 +21,30 @@
                         <div class="col"> <label>Chỉ số mới</label> </div>
                         <div class="col"> <label>Chỉ số cũ</label>  </div>
                         <div class="col">
-                            <input type="text" class="form-control" ng-model="name">
+                            <input type="text" class="form-control" ng-model="name" required>
                         </div>
                         <div class="col"></div>
                         <div class="col">
-                            <input type="number" class="form-control" ng-model="new" ng-change="Consume()">
+                            <input type="text" class="form-control" ng-model="new" ng-change="Consume()" required>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" ng-model="old" ng-change="Consume()">
+                            <input type="text" class="form-control" ng-model="old" ng-change="Consume()" required>
                         </div>
                         <div class="col"> <label>Số nhân khẩu</label> </div>
                         <div class="col"> <label>Số m<sup>3</sup> trong định mức</label> </div>
                         <div class="col"> <label>Số m<sup>3</sup> vượt định mức</label> </div>
                         <div class="col"> <label>Số m<sup>3</sup> tiêu thụ</label> </div>
                         <div class="col">
-                            <input type="text" class="form-control" ng-model="people">
+                            <input type="text" class="form-control" ng-model="people" ng-change="Beyond()" required>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" ng-model="within" ng-change="Beyond()">
+                            <input type="text" class="form-control" ng-model="within" ng-change="Beyond()">
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" ng-model="beyond" disabled>
+                            <input type="text" class="form-control" ng-model="beyond" disabled>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" ng-model="consume" ng-change="Beyond()" disabled>
+                            <input type="text" class="form-control" ng-model="consume" ng-change="Beyond()" disabled>
                         </div>
                     </div>
                 </div>
@@ -108,18 +108,6 @@
                 "tax" : 512000,
                 "total" : 5545121545
             },
-            {
-                "name" : "Nguyễn Thành Trung",
-                "people" : 3,
-                "new" : 70,
-                "old" : 0,
-                "consume" : 70,
-                "within" : 12,
-                "beyond" : 58,
-                "money" : 512000000,
-                "tax" : 512000,
-                "total" : 5545121545
-            }
         ];
         $scope.selectedData = {};
         /**
@@ -151,6 +139,9 @@
         }
         $scope.add = function () {
             if (this.isInputValid()) {
+                $scope.Money();
+                $scope.Tax();
+                $scope.Total();
                 const item = {
                     "no": this.dataList.length + 1,
                     "name": this.name,
@@ -164,7 +155,7 @@
                     "tax": this.tax,
                     "total": this.total
                 };
-                this.dataList[this.dataList.length] = item;
+                this.dataList.push(item);
                 this.clear();
             } else {
                 alert("Vui lòng điền đầy đủ thông tin trước khi thêm.");
@@ -177,6 +168,9 @@
                     return item.no === $scope.selectedData.no;
                 });
                 if (index !== -1) {
+                    $scope.Money();
+                    $scope.Tax();
+                    $scope.Total();
                     this.dataList[index].name = this.name;
                     this.dataList[index].people = this.people;
                     this.dataList[index].new = this.new;
@@ -201,7 +195,8 @@
                 });
 
                 if (index !== -1) {
-                    this.dataList.splice(index, 1);
+                    if(confirm("Bạn có muốn xóa hay không?"))
+                        this.dataList.splice(index, 1);
                 }
 
                 // Sau khi xóa xong, đặt lại selectedStudent và xóa trường nhập liệu
@@ -227,35 +222,53 @@
         /**
          * Hàm tính số m^3 tiêu thụ
          */
-        $scope.Consume = function () {
-            if (angular.isNumber($scope.new) && angular.isNumber($scope.old)) {
-                $scope.consume = $scope.new - $scope.old;
-            } else {
-                $scope.consume = 0; // Đặt giá trị consume về 0 nếu không phải là số
-            }
+        $scope.Consume = () => {
+            $scope.consume = $scope.new - $scope.old;
+            $scope.Money();
+            $scope.Tax();
         }
         /**
          * Hàm tính số m^3 vượt định mức
          */
-        $scope.Beyond = function () {
-            if (angular.isNumber($scope.within) && angular.isNumber($scope.consume)) {
-                $scope.beyond = $scope.consume - $scope.within;
-            } else {
-                $scope.beyond = 0; // Đặt giá trị consume về 0 nếu không phải là số
-            }
+        $scope.Beyond = () => {
+            if ($scope.people < 4)
+                $scope.within = 12;
+            else
+                $scope.within = $scope.people * 4;
+            $scope.beyond = Math.max($scope.consume - $scope.within, 0);
+            $scope.Money();
+            $scope.Tax();
         }
+
         /**
          * Hàm tính tiền nước
          */
-
+        $scope.Money = () => {
+            $scope.money = $scope.within * 4000 + $scope.beyond * 8000;
+        }
         /**
          * Hàm tính thuế
          */
-
+        $scope.Tax = () => {
+            $scope.tax = $scope.money * 0.1;
+        }
         /**
          * Hàm tính tổng
          */
-
+        $scope.Total = () => {
+            $scope.total = $scope.money + $scope.tax
+        }
+        /**
+         * Hàm tính tổng tiền nước
+         */
+        $scope.TotalMoney = () => {
+            $scope.totalMoney = $scope.total += $scope.total;
+            console.log($scope.totalMoney)
+        }
+        /**
+         *
+         * @returns {boolean}
+         */
         $scope.isInputValid = function () {
             // Kiểm tra xem các trường nhập liệu có rỗng hay không
             return (
