@@ -80,9 +80,9 @@
                 <tfoot>
                     <tr>
                         <td colspan="8" class="text-center">Tổng cộng</td>
-                        <td>1408000</td>
-                        <td>1408000</td>
-                        <td>1548000</td>
+                        <td>{{TotalMoney()}}</td>
+                        <td>{{TotalTax()}}</td>
+                        <td>{{TotalAll()}}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -95,20 +95,6 @@
     app.controller('myController', ['$scope', '$http', ($scope, $http) => {
         $scope.dataList = [];
         $scope.Columns = [ "STT", "Tên khách hàng", "Số nhân khẩu" ,"Chỉ số mới", "Chỉ số cũ", "Số m³ tiêu thụ", "Trong ĐM", "Vượt ĐM", "Tiền nước", "Thuế MT 10%", "Tổng"];
-        $scope.dataList = [
-            {
-                "name" : "Nguyễn Thành Trung",
-                "people" : 3,
-                "new" : 70,
-                "old" : 0,
-                "consume" : 70,
-                "within" : 12,
-                "beyond" : 58,
-                "money" : 512000000,
-                "tax" : 512000,
-                "total" : 5545121545
-            },
-        ];
         $scope.selectedData = {};
         /**
          * Đọc dữ liệu từ file json
@@ -139,9 +125,12 @@
         }
         $scope.add = function () {
             if (this.isInputValid()) {
-                $scope.Money();
-                $scope.Tax();
+                // $scope.Money();
+                // $scope.Tax();
                 $scope.Total();
+                // $scope.TotalMoney();
+                // $scope.TotalTax();
+                // $scope.TotalAll();
                 const item = {
                     "no": this.dataList.length + 1,
                     "name": this.name,
@@ -168,9 +157,12 @@
                     return item.no === $scope.selectedData.no;
                 });
                 if (index !== -1) {
-                    $scope.Money();
-                    $scope.Tax();
+                    // $scope.Money();
+                    // $scope.Tax();
                     $scope.Total();
+                    // $scope.TotalMoney();
+                    // $scope.TotalTax();
+                    // $scope.TotalAll();
                     this.dataList[index].name = this.name;
                     this.dataList[index].people = this.people;
                     this.dataList[index].new = this.new;
@@ -201,6 +193,9 @@
 
                 // Sau khi xóa xong, đặt lại selectedStudent và xóa trường nhập liệu
                 this.selectedData = {};
+                // $scope.TotalMoney();
+                // $scope.TotalTax();
+                // $scope.TotalAll();
                 this.clear();
             }
         }
@@ -262,8 +257,20 @@
          * Hàm tính tổng tiền nước
          */
         $scope.TotalMoney = () => {
-            $scope.totalMoney = $scope.total += $scope.total;
-            console.log($scope.totalMoney)
+            return $scope.dataList.reduce((total, item) => total + item.money, 0);
+        }
+        /**
+         * Hàm tính tổng tiền thuế
+         */
+        $scope.TotalTax = () => {
+            return $scope.dataList.reduce((total, item) => total + item.tax, 0);
+        }
+        /**
+         * Hàm tính tổng All
+         * @constructor
+         */
+        $scope.TotalAll = () => {
+            return $scope.dataList.reduce((total, item) => total + parseFloat(item.total || 0), 0);
         }
         /**
          *
@@ -272,16 +279,10 @@
         $scope.isInputValid = function () {
             // Kiểm tra xem các trường nhập liệu có rỗng hay không
             return (
-                this.name !== '' &&
-                this.people !== '' &&
-                this.new !== '' &&
-                this.old !== '' &&
-                this.consume !== '' &&
-                this.within !== '' &&
-                this.beyond !== '' &&
-                this.money !== '' &&
-                this.tax !== '' &&
-                this.total !== ''
+                this.name !== "" &&
+                this.people !== "" &&
+                this.new !== "" &&
+                this.old !== ""
             );
         }
     }]);
