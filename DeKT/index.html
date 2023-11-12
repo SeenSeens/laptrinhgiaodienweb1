@@ -49,9 +49,9 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary" ng-click="add()">Thêm</button>
-                    <button class="btn btn-primary" ng-click="edit()">Sửa</button>
-                    <button type="button" class="btn btn-primary" ng-click="delete()">Xóa</button>
+                    <button type="button" class="btn btn-primary" ng-click="add()"><i class="fa-solid fa-user-plus"></i></button>
+                    <button class="btn btn-warning" ng-click="edit()"><i class="fa-sharp fa-solid fa-pen-to-square"></i></button>
+                    <button type="button" class="btn btn-success" ng-click="clear()"><i class="fa-sharp fa-solid fa-arrows-rotate"></i></button>
                 </div>
             </div>
         </div>
@@ -60,6 +60,7 @@
                 <thead>
                     <tr>
                         <th ng-repeat="col in Columns">{{ col }}</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +76,7 @@
                         <td>{{item.money}}</td>
                         <td>{{item.tax}}</td>
                         <td>{{item.total}}</td>
+                        <td><button type="button" class="btn btn-danger" ng-click="delete($index)"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -83,54 +85,43 @@
                         <td>{{TotalMoney()}}</td>
                         <td>{{TotalTax()}}</td>
                         <td>{{TotalAll()}}</td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
 </section>
+<script src="https://kit.fontawesome.com/266bd35cca.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 <script>
     const app = angular.module('myApp', []);
-    app.controller('myController', ['$scope', '$http', ($scope, $http) => {
+    app.controller('myController', ['$scope', '$http', function ($scope, $http) {
         $scope.dataList = [];
         $scope.Columns = [ "STT", "Tên khách hàng", "Số nhân khẩu" ,"Chỉ số mới", "Chỉ số cũ", "Số m³ tiêu thụ", "Trong ĐM", "Vượt ĐM", "Tiền nước", "Thuế MT 10%", "Tổng"];
         $scope.selectedData = {};
-        /**
-         * Đọc dữ liệu từ file json
-         */
-        // $http.get('data.json')
-            //     .then((response) => {
-            //         $scope.dataList = angular.fromJson(response.data);
-            //     })
-            //     .catch((error) => {
-            //         console.error(error);
-            //     });
-        /**
-         * Hàm này được chạy khi nhấp vào 1 dòng
-         */
-        $scope.fillForm = (data) => {
-            $scope.name = data.name;
-            $scope.people = data.people;
-            $scope.new = data.new;
-            $scope.old = data.old;
-            $scope.consume = data.consume;
-            $scope.within = data.within;
-            $scope.beyond = data.beyond;
-            $scope.money = data.money;
-            $scope.tax = data.tax;
-            $scope.total = data.total;
-            // Cập nhật selectedData
-            $scope.selectedData = data;
-        }
+        $scope.dataList = [
+            {
+                "name" : "Nguyễn Thành Trung",
+                "people" : 3,
+                "new" : 70,
+                "old" : 0,
+                "consume" : 70,
+                "within" : 12,
+                "beyond" : 58,
+                "money" : 512000000,
+                "tax" : 512000,
+                "total" : 5545121545
+            }
+        ]
         $scope.add = function () {
             if (this.isInputValid()) {
-                // $scope.Money();
-                // $scope.Tax();
+                $scope.Money();
+                $scope.Tax();
                 $scope.Total();
-                // $scope.TotalMoney();
-                // $scope.TotalTax();
-                // $scope.TotalAll();
+                $scope.TotalMoney();
+                $scope.TotalTax();
+                $scope.TotalAll();
                 const item = {
                     "no": this.dataList.length + 1,
                     "name": this.name,
@@ -157,12 +148,12 @@
                     return item.no === $scope.selectedData.no;
                 });
                 if (index !== -1) {
-                    // $scope.Money();
-                    // $scope.Tax();
+                    $scope.Money();
+                    $scope.Tax();
                     $scope.Total();
-                    // $scope.TotalMoney();
-                    // $scope.TotalTax();
-                    // $scope.TotalAll();
+                    $scope.TotalMoney();
+                    $scope.TotalTax();
+                    $scope.TotalAll();
                     this.dataList[index].name = this.name;
                     this.dataList[index].people = this.people;
                     this.dataList[index].new = this.new;
@@ -179,26 +170,86 @@
                 $scope.clear();
             }
         }
-        $scope.delete = function () {
-            if (this.selectedData && this.selectedData.no) {
-                // Tìm vị trí của tên khách hàng trong mảng và xóa
-                const index = this.dataList.findIndex(function(item) {
-                    return item.no === $scope.selectedData.no;
-                });
-
-                if (index !== -1) {
-                    if(confirm("Bạn có muốn xóa hay không?"))
-                        this.dataList.splice(index, 1);
-                }
-
-                // Sau khi xóa xong, đặt lại selectedStudent và xóa trường nhập liệu
-                this.selectedData = {};
-                // $scope.TotalMoney();
-                // $scope.TotalTax();
-                // $scope.TotalAll();
-                this.clear();
+        $scope.delete = function (index) {
+            if (confirm("Are you sure you want to delete this item?")) {
+                $scope.dataList.splice(index, 1);
             }
+        };
+        /**
+         * Hàm tính số m^3 tiêu thụ
+         */
+        $scope.Consume = function () {
+            $scope.consume = $scope.new - $scope.old;
+            $scope.Money();
+            $scope.Tax();
         }
+        /**
+         * Hàm tính số m^3 vượt định mức
+         */
+        $scope.Beyond = function() {
+            if ($scope.people < 4)
+                $scope.within = 12;
+            else
+                $scope.within = $scope.people * 4;
+            $scope.beyond = Math.max($scope.consume - $scope.within, 0);
+            // $scope.Money();
+            // $scope.Tax();
+        }
+
+        /**
+         * Hàm tính tiền nước
+         */
+        $scope.Money = function() {
+            $scope.money = $scope.within * 4000 + $scope.beyond * 8000;
+        }
+        /**
+         * Hàm tính thuế
+         */
+        $scope.Tax = function() {
+            $scope.tax = $scope.money * 0.1;
+        }
+        /**
+         * Hàm tính tổng
+         */
+        $scope.Total = function() {
+            $scope.total = $scope.money + $scope.tax
+        }
+        /**
+         * Hàm tính tổng tiền nước
+         */
+        $scope.TotalMoney = function() {
+            return $scope.dataList.reduce((total, item) => total + item.money, 0);
+        }
+        /**
+         * Hàm tính tổng tiền thuế
+         */
+        $scope.TotalTax = function() {
+            return $scope.dataList.reduce((total, item) => total + item.tax, 0);
+        }
+        /**
+         * Hàm tính tổng All
+         */
+        $scope.TotalAll = function() {
+            return $scope.dataList.reduce((total, item) => total + parseFloat(item.total || 0), 0);
+        }
+        /**
+         * Hàm này được chạy khi nhấp vào 1 dòng
+         */
+        $scope.fillForm = function(data) {
+            $scope.name = data.name;
+            $scope.people = data.people;
+            $scope.new = data.new;
+            $scope.old = data.old;
+            $scope.consume = data.consume;
+            $scope.within = data.within;
+            $scope.beyond = data.beyond;
+            $scope.money = data.money;
+            $scope.tax = data.tax;
+            $scope.total = data.total;
+            // Cập nhật selectedData
+            $scope.selectedData = data;
+        }
+
         /**
          * Clear input
          */
@@ -214,67 +265,9 @@
             this.tax = '';
             this.total = '';
         }
-        /**
-         * Hàm tính số m^3 tiêu thụ
-         */
-        $scope.Consume = () => {
-            $scope.consume = $scope.new - $scope.old;
-            $scope.Money();
-            $scope.Tax();
-        }
-        /**
-         * Hàm tính số m^3 vượt định mức
-         */
-        $scope.Beyond = () => {
-            if ($scope.people < 4)
-                $scope.within = 12;
-            else
-                $scope.within = $scope.people * 4;
-            $scope.beyond = Math.max($scope.consume - $scope.within, 0);
-            $scope.Money();
-            $scope.Tax();
-        }
 
         /**
-         * Hàm tính tiền nước
-         */
-        $scope.Money = () => {
-            $scope.money = $scope.within * 4000 + $scope.beyond * 8000;
-        }
-        /**
-         * Hàm tính thuế
-         */
-        $scope.Tax = () => {
-            $scope.tax = $scope.money * 0.1;
-        }
-        /**
-         * Hàm tính tổng
-         */
-        $scope.Total = () => {
-            $scope.total = $scope.money + $scope.tax
-        }
-        /**
-         * Hàm tính tổng tiền nước
-         */
-        $scope.TotalMoney = () => {
-            return $scope.dataList.reduce((total, item) => total + item.money, 0);
-        }
-        /**
-         * Hàm tính tổng tiền thuế
-         */
-        $scope.TotalTax = () => {
-            return $scope.dataList.reduce((total, item) => total + item.tax, 0);
-        }
-        /**
-         * Hàm tính tổng All
-         * @constructor
-         */
-        $scope.TotalAll = () => {
-            return $scope.dataList.reduce((total, item) => total + parseFloat(item.total || 0), 0);
-        }
-        /**
-         *
-         * @returns {boolean}
+         * Validate Form
          */
         $scope.isInputValid = function () {
             // Kiểm tra xem các trường nhập liệu có rỗng hay không
